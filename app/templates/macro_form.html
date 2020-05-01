@@ -1,0 +1,57 @@
+{% macro add_elements(task) %}
+<tr>
+    <td>{{ task.name }}</td>
+    <td>{{ task.description }}</td>
+    <td>{{ task.date }}</td>
+    <td>
+        {% if task.status== True %}
+               <form method="post" action="/state/{{ task.name }}/{{ task.id }}">
+                    <input type="submit" value = "OPEN" class="btn btn-primary">
+               </form>
+        {% endif %}
+        {% if task.status == False %}
+                <form method="post" action="/state/{{ task.name }}/{{ task.id }}">
+                    <input type="submit" value = "CLOSE" class="btn btn-primary">
+               </form>
+        {% endif %}
+    </td>
+    <td><form method="post" action="/edit/{{ task.name }}/{{ task.id }}" style="float: left">
+            <input value="Editer" type="submit" class="btn btn-warning">
+        </form>
+        <form method="get" action="/remove/{{ task.name }}/{{ task.id }}">
+            <input value="Supprimer" type="submit" class="btn btn-danger">
+        </form> </td>
+  </tr>
+{% endmacro %}
+
+<!-- macro to add user in the user page-->
+{% macro list_users(user) %}
+    <td>{{ user.username }}</td>
+    <td>{{ user.firstName }}</td>
+    <td>{{ user.lastName }}</td>
+    <td>
+        {% if user.admin == True %}
+               <form method="get" action="/admin/{{ user.username }}">
+                    <input type="submit" value = "Admin" class="btn btn-primary">
+               </form>
+        {% endif %}
+        {% if user.admin == False %}
+                <form method="get" action="/admin/{{ user.username }}">
+                    <input type="submit" value = "Basic user" class="btn btn-primary">
+               </form>
+        {% endif %}
+    </td>
+    <td>
+        {% if user.blocked == True %}
+               <form method="get" action="/block/{{ user.username }}">
+                    <input type="submit" value = "Blocked" class="btn btn-primary">
+               </form>
+        {% endif %}
+        {% if user.blocked == False %}
+                <form method="get" action="/block/{{ user.username }}">
+                    <input type="submit" value = "Not Blocked" class="btn btn-primary">
+               </form>
+        {% endif %}
+    </td>
+  </tr>
+{% endmacro %}
