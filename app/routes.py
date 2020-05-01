@@ -11,8 +11,49 @@ from flask_login import login_required, login_user, logout_user, current_user, L
 from flask_login import login_required, login_user,logout_user, current_user
 
 
-
+#Home page
 @app.route('/')
-def main():
+def home():
     return render_template('home.html')
 
+# Contact page
+@app.route("/contact")
+def contact():
+    pass
+
+# Training page + tarif
+@app.route("/training")
+def training():
+    pass
+
+# Carnet d'or page
+
+@app.route("/goldCarnet")
+def goldCarnet():
+    pass
+
+# Material page
+@app.route("/material")
+def material():
+    pass
+
+# Comité page
+@app.route("/committee")
+def committee():
+    pass
+
+# Inscription page (inscription au club)
+# Ajout dans la bd et utilisation de formulaire
+@app.route("/inscription")
+def inscription():
+    pass
+
+# Registration page
+@app.route("/registration")
+def registration():
+    pass
+
+# Login page
+@app.route("/login")
+def login():
+    pass
