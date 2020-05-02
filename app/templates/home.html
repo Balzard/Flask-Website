@@ -2,4 +2,10 @@
 
 {% block content %}
     <h1>Home</h1>
+    {% if current_user.is_authenticated %}
+      <p>{{current_user.pseudo}}</p>
+      <a href="/logout">Déconnection</a>
+    {% else %}
+      <p>non connecté</p>
+    {% endif %}
 {% endblock %}

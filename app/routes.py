@@ -53,7 +53,7 @@ def inscription():
         username = form.username.data
         firstName = form.firstname.data
         lastName = form.lastname.data
-        birthDate = forme.date.data
+        birthDate = form.date.data
         password = form.password2.data
         # Create new Joueur
         player = Joueur(pseudo=username,mdp=password,nom=lastName,prenom=firstName,naissance=birthDate,admin=False)
@@ -85,3 +85,17 @@ def login():
         return redirect(next_page)
     else:
         return render_template("my_login_form.html", form=form)
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("home"))
+
+# liste de force
+@app.route("/players")
+@login_required
+def players():
+    #players = Joueur.query.all()
+    #return render_template("listPlayer.html",players=players)
+    return "Page des joueurs"
