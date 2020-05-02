@@ -12,48 +12,76 @@ from flask_login import login_required, login_user,logout_user, current_user
 
 
 #Home page
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('home.html')
+    return render_template("home.html")
 
 # Contact page
 @app.route("/contact")
 def contact():
-    pass
+    #return render_template("contact.html")
+    return "Page des contacts du club."
 
 # Training page + tarif
 @app.route("/training")
 def training():
-    pass
+    #trainings = Entrainement.query.all()
+    #return render_template("training.html", trainings=trainings)
+    return "Page pour les entrainements"
 
 # Carnet d'or page
-
 @app.route("/goldCarnet")
 def goldCarnet():
-    pass
+    comms = Commentaire.query.all()
+    #return render_template("goldCarnet.html", comms=comms)
+    return "Page du carnet d'or"
 
-# Material page
-@app.route("/material")
+# Materiel page
+@app.route("/materiel")
 def material():
-    pass
-
-# Comité page
-@app.route("/committee")
-def committee():
-    pass
+    #matos = Materiel.query.all()
+    #return render_template("materiel.html", matos=matos)
+    return "Page du matériel"
 
 # Inscription page (inscription au club)
 # Ajout dans la bd et utilisation de formulaire
-@app.route("/inscription")
+@app.route("/inscription", methods=["GET","POST"])
 def inscription():
-    pass
-
-# Registration page
-@app.route("/registration")
-def registration():
-    pass
+    form = MyRegistrationForm()
+    if form.validate_on_submit():
+        # Take data back
+        username = form.username.data
+        firstName = form.firstname.data
+        lastName = form.lastname.data
+        birthDate = forme.date.data
+        password = form.password2.data
+        # Create new Joueur
+        player = Joueur(pseudo=username,mdp=password,nom=lastName,prenom=firstName,naissance=birthDate,admin=False)
+        player.set_password(password)
+        # Add player to the db
+        db.session.add(player)
+        db.session.commit()
+        # Home page
+        return redirect(url_for("home"))
+    else:
+        return render_template("my_registration_form.html", form=form)
 
 # Login page
-@app.route("/login")
+@app.route("/login",methods=["GET","POST"])
 def login():
-    pass
+    form = MyLoginForm()
+    if form.validate_on_submit():
+        player = Joueur.query.filter_by(pseudo=form.username.data).first()
+        if player is None:
+            flash("You're not registered yet.", "info")
+            return redirect(url_for("login"))
+        elif not player.check_password(form.password.data):
+            flash("Invalid username or password.", "info")
+            return redirect(url_for("login"))
+        login_user(player)
+        next_page = request.args.get("next")
+        if not next_page or url_parse(next_page).netloc != " ":
+            next_page = url_for("home")
+        return redirect(next_page)
+    else:
+        return render_template("my_login_form.html", form=form)

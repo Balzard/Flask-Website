@@ -29,10 +29,9 @@ class Joueur(UserMixin ,db.Model):
     mdp_hash = db.Column(db.String(128))
     nom = db.Column(db.String(20), nullable=False)
     prenom = db.Column(db.String(20), nullable=False)
-    age = db.Column(db.Integer, nullable=False)
-    utilisateur = db.Column(db.Boolean, default=False)
+    naissance = db.Column(db.DATE, nullable=False)
     admin = db.Column(db.Boolean, default=False)
-    equipe = db.Column(db.String, db.ForeignKey("equipe.nom"))
+    equipe = db.Column(db.String, db.ForeignKey("equipe.nom"), nullable=True)
 
     def getUsername(self):
         return self.pseudo
@@ -56,6 +55,12 @@ class Produit(db.Model):
     type = db.Column(db.String, nullable=False)
     tarif = db.Column(db.Float, nullable=False)
 
+class Commentaire(db.Model):
+    __tablename__ = "commentaire"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    texte = db.Column(db.String(210), nullable=False)
+    autheur = db.Column(db.String(21), nullable=True)
+
 
 db.drop_all()
 db.create_all()
@@ -64,5 +69,3 @@ db.create_all()
 @login_manager.user_loader
 def load_user(userid):
     return Joueur.query.get(int(userid))
-
-

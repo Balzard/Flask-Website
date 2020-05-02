@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <!--link rel="stylesheet" type="text/css" href="static/style.css"-->
     <title>Registration page</title>
 </head>
+
 <body>
 
 {% with messages = get_flashed_messages( with_categories=true, category_filter=['danger'] ) %}
@@ -22,7 +23,7 @@
 {% endfor %}
 {% endif %}
 <h1>Register page</h1>
-<<form action="/register" method="post">
+<form action="/inscription" method="post">
  {{ form.hidden_tag() }} <!-- {{ form.csrf_token }} -->
  <p>
  {{ form.username.label }}<br>
@@ -47,7 +48,7 @@
  </p>
 <p>
  {{ form.date.label }}<br>
- {{ form.date(size=64) }}<br>
+ {{ form.date(class="registerForm") }}<br>
  {% for error in form.date.errors %}
  <span style="color: red;">[{{ error }}]</span>
  {% endfor %}
