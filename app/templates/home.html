@@ -1,7 +1,7 @@
 {% extends "parent.html" %}
 
 {% block content %}
-    <h1>Home</h1>
+    <h1 style="text-align: center;">Bienvenue sur le site du Club</h1>
     {% if current_user.is_authenticated %}
       <p>{{current_user.pseudo}}</p>
       <a href="/logout">Déconnection</a>

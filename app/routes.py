@@ -23,28 +23,28 @@ def home():
 @app.route("/contact")
 def contact():
     #return render_template("contact.html")
-    return "Page des contacts du club."
+    return render_template("contacts.html")
 
 # Training page + tarif
 @app.route("/training")
 def training():
     #trainings = Entrainement.query.all()
     #return render_template("training.html", trainings=trainings)
-    return "Page pour les entrainements"
+    return render_template("entrainements.html")
 
 # Carnet d'or page
 @app.route("/goldCarnet")
 def goldCarnet():
     #comms = Commentaire.query.all()
     #return render_template("goldCarnet.html", comms=comms)
-    return "Page du carnet d'or"
+    return render_template("carnet_or.html")
 
 # Materiel page
 @app.route("/materiel")
-def material():
+def material(): 
     #matos = Materiel.query.all()
     #return render_template("materiel.html", matos=matos)
-    return "Page du matériel"
+    return render_template("materiel.html")
 
 # Inscription page (inscription au club)
 # Ajout dans la bd et utilisation de formulaire
@@ -124,7 +124,7 @@ def logout():
 def players():
     #players = Joueur.query.all()
     #return render_template("listPlayer.html",players=players)
-    return "Page des joueurs"
+    return render_template("joueurs.html")
 
 # Page des équipes
 @app.route("/teams")
@@ -132,7 +132,7 @@ def players():
 def teams():
     #teams = Equipe.query.all()
     #return render_template("teams.html",teams=teams)
-    return "Page des équipes"
+    return render_template("equipes.html")
 
 # Return a JSON object with all the players'id from a team
 @app.route("/playersInTeams", methods=["POST"])
@@ -220,4 +220,4 @@ def deleteProd(id):
         db.session.commit()
     else:
         msg = "Le produit recherché est introuvable."
-        return, render_template("404.html", msg=msg), 400
+        return render_template("404.html", msg=msg), 400
