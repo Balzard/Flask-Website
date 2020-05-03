@@ -2,6 +2,12 @@
  <head><title>404 Error</title></head>
  <body>
  <h1>Page Not Found</h1>
- <p>What you were looking for is just not there.
+ <p>
+   {% if msg %}
+    {{msg}}
+   {% else %}
+    Pas de message d'erreur.
+   {% endif %}
+ </p>
 </body>
 </html>

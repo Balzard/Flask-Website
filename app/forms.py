@@ -23,4 +23,7 @@ class MyRegistrationForm(FlaskForm):
           if user is not None:
                 raise ValidationError('Please use a different username.')
 
+class MyCommentForm(FlaskForm):
+    comm = StringField("Commentaire :", validators=[InputRequired(),Length(min=3,max=210)])
+
 from app.models import Joueur

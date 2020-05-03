@@ -7,6 +7,7 @@ from datetime import datetime
 class Equipe(db.Model):
     __tablename__ = "equipe"
     nom = db.Column(db.String, primary_key=True)
+    players = db.relationship("Joueur", backref="equipe", lazy="dynamic")
 
 class Entrainement(db.Model):
     __tablename__ = "entrainement"
@@ -36,6 +37,12 @@ class Joueur(UserMixin ,db.Model):
     def getUsername(self):
         return self.pseudo
 
+    def getId(self):
+        return self.id
+
+    def deleteTeam(self):
+        self.equipe = None
+
     def set_password(self, mdp):
         self.mdp_hash = generate_password_hash(mdp)
 
@@ -59,7 +66,7 @@ class Commentaire(db.Model):
     __tablename__ = "commentaire"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     texte = db.Column(db.String(210), nullable=False)
-    autheur = db.Column(db.String(21), nullable=True)
+    autheur = db.Column(db.String(21), nullable=False)
 
 
 db.drop_all()
