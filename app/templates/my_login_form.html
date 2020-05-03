@@ -1,19 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-<h1> This is the Login page </h1>
-<h3>You must be connected to access some sections.</h3>
+<h1 style="text-align: center; margin-top: 100px;"> This is the Login page </h1>
+<h3 style="text-align: center; margin-bottom: 30px;">You must be connected to access some sections.</h3>
 
 <!--valide le form que du coté serveur(novalidate)-->
-<form method="POST" action="/login" novalidate>
-    <!--permet browser de stocker mdp secret qui est envoyé au serveur quand client pousse submit -->
-{{ form.csrf_token }} <!-- {{ form.hidden_tag() }} -->
-{{ form.username.label }} {{ form.username(size=20) }}<br>
-{{ form.password.label }} {{ form.password(size=16) }}<br>
-{{ form.submit }}
+<form method="POST" action="/login" novalidate style="text-align: center; font-size: large;"> 
+
+    <div class="form-group">
+        <!--permet browser de stocker mdp secret qui est envoyé au serveur quand client pousse submit -->
+        {{ form.csrf_token }} <!-- {{ form.hidden_tag() }} -->
+        {{ form.username.label }} {{ form.username(size=20) }}<br>
+        {{ form.password.label }} {{ form.password(size=20) }}<br>
+        {{ form.submit (class="btn btn-primary") }}
+    </div>
 </form>
-<div>
-    <a href="{{ url_for('inscription') }}">Inscription</a>
+<div style="text-align: center;">
+    <a href="{{ url_for('inscription') }}" style="text-align: center;">Inscription</a><br>
+    <a href="/" style="text-align: center;">Revenir à l'accueil</a>
 </div>
 </body>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <!--link rel="stylesheet" type="text/css" href="static/style.css"-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Registration page</title>
 </head>
 
@@ -22,8 +23,8 @@
 <div class="field_error">{{ message }}</div>
 {% endfor %}
 {% endif %}
-<h1>Register page</h1>
-<form action="/inscription" method="post">
+<h1 style="text-align: center; margin-top: 100px;">Register page</h1>
+<form action="/inscription" method="post" style="text-align: center;">
  {{ form.hidden_tag() }} <!-- {{ form.csrf_token }} -->
  <p>
  {{ form.username.label }}<br>
@@ -34,21 +35,21 @@
  </p>
  <p>
  {{ form.firstname.label }}<br>
- {{ form.firstname(size=64) }}<br>
+ {{ form.firstname(size=32) }}<br>
  {% for error in form.firstname.errors %}
  <span style="color: red;">[{{ error }}]</span>
  {% endfor %}
  </p>
 <p>
  {{ form.lastname.label }}<br>
- {{ form.lastname(size=64) }}<br>
+ {{ form.lastname(size=32) }}<br>
  {% for error in form.lastname.errors %}
  <span style="color: red;">[{{ error }}]</span>
  {% endfor %}
  </p>
 <p>
  {{ form.date.label }}<br>
- {{ form.date(class="Test") }}<br>
+ {{ form.date(size=32) }}<br>
  {% for error in form.date.errors %}
  <span style="color: red;">[{{ error }}]</span>
  {% endfor %}
@@ -67,8 +68,11 @@
  <span style="color: red;">[{{ error }}]</span>
  {% endfor %}
  </p>
- <p>{{ form.submit() }}</p>
+ <p>{{ form.submit (class="btn btn-primary")}}</p>
  </form>
+ <div style="text-align: center;">
+    <a href="/" style="text-align: center;">Revenir à l'accueil</a>
+</div>
 
 </body>
 </html>
