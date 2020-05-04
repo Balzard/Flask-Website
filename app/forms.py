@@ -14,7 +14,7 @@ class MyRegistrationForm(FlaskForm):
       username = StringField('Username :', validators=[InputRequired(),Length(min=5, max=80)])
       firstname = StringField('First Name :', validators=[InputRequired(), Length(min=3,max=20)])
       lastname = StringField('Last Name :',validators=[InputRequired(),Length(min=3,max=30)])
-      date = DateField("Birth Date :", validators=[InputRequired()])
+      date = DateField("Birth Date (month/day/year):", format="%m/%d/%Y",validators=[InputRequired()])
       password = PasswordField('Password :', validators=[InputRequired(),Length(min=3, max=16)])
       password2 = PasswordField('Repeat Password :', validators=[InputRequired(),EqualTo('password')])
       submit = SubmitField('Register')

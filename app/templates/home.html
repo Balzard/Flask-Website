@@ -1,11 +1,176 @@
-{% extends "parent.html" %}
+<!--{% extends "parent.html" %}
 
-{% block content %}
-    <h1 style="text-align: center;">Bienvenue sur le site du Club</h1>
+{% block content %}-->
+
+<!-- ce fichier html n'extends pas parent.html car cela posait des problèmes. J'ai alors simplemenent recopié la barre de navigation ici -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Site web</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="static/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+	  <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Accueil</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/goldCarnet">Carnetd'or</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/training">Entrainements/tarifs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">Contacts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/materiel">Matériel</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/players">Liste de forces</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/teams">Equipes</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+          {% endif %}
+        </ul>
+    </div>
+  </nav>
+
+
+  <header>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <!-- Slide One - Set the background image for this slide in the line below -->
+        <div class="carousel-item active" style="background-image: url('static/pingpong1.jpg')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>Flask</h3>
+          </div>
+        </div>
+        <!-- Slide Two - Set the background image for this slide in the line below -->
+        <div class="carousel-item" style="background-image: url('static/pingpong2.jpg')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>INFOB320</h3>
+          </div>
+        </div>
+       
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <h1 class="my-4">Bienvenue sur le site web du club</h1>
+
+    
+    <!-- Features Section -->
+    <div class="row">
+      <div class="col-lg-6">
+        <h2>Description</h2>
+        <p>Ce site est construit à partir de plusieurs technologies:</p>
+        <ul>
+          <li>
+            <strong>Flask</strong>
+          </li>
+          <li>jQuery</li>
+          <li>Boostrap</li>
+          <li>Ajax</li>
+        </ul>
+        <p>Il a pour but de représenter le site web d'un club de tennis de table. Il contient dès lors plusieurs pages 
+        représentant les différentes offres du club.</p>
+      </div>
+      <div class="col-lg-6">
+        <img class="img-fluid rounded" src="static/formation-continue.png" alt="">
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
+
+    <!-- Call to Action Section -->
+    <div class="row mb-4">
+      <div class="col-md-8">
+        <p>Le site a été créé dans le cadre du cours de Technologies web (INFOB320) de l'université de Namur</p>
+      </div>
+      <div class="col-md-4">
+        <a class="btn btn-lg btn-secondary btn-block" href="https://www.unamur.be/">Unamur</a>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Website in Flask by Sylvério Pool Marquez, Sindy Willems and Stéphane Leblanc</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
+
+
+ <!--   <h1 style="text-align: center;">Bienvenue sur le site du Club</h1>
     {% if current_user.is_authenticated %}
       <p>{{current_user.pseudo}}</p>
       <a href="/logout">Déconnection</a>
     {% else %}
       <p>non connecté</p>
     {% endif %}
-{% endblock %}
+
+   
+{% endblock %}-->

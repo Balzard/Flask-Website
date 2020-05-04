@@ -7,8 +7,18 @@ from app.forms import MyRegistrationForm
 from app.models import Joueur
 from werkzeug.urls import url_parse
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
+import datetime
 
 from flask_login import login_required, login_user,logout_user, current_user
+
+#create admin account
+def create_admin():
+    user = Joueur(pseudo = "admin",prenom = "stephane", nom="leblanc",admin=True, naissance = datetime.datetime(1998,6,1))
+    user.set_password("admin")
+    db.session.add(user)
+    db.session.commit()
+
+create_admin()
 
 ####################
 # Public section   #
@@ -65,7 +75,7 @@ def inscription():
         db.session.add(player)
         db.session.commit()
         # Home page
-        return redirect(url_for("home"))
+        return redirect(url_for("login"))
     else:
         return render_template("my_registration_form.html", form=form)
 

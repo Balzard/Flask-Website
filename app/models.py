@@ -7,7 +7,8 @@ from datetime import datetime
 class Equipe(db.Model):
     __tablename__ = "equipe"
     nom = db.Column(db.String, primary_key=True)
-    players = db.relationship("Joueur", backref="equipe", lazy="dynamic")
+    #j'ai mis en commentaire car j'avais une erreure à cause de cette ligne (Stephane)
+    #players = db.relationship("Joueur", backref="equipe", lazy="dynamic")
 
 class Entrainement(db.Model):
     __tablename__ = "entrainement"
