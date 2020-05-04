@@ -74,7 +74,7 @@ def inscription():
         # Add player to the db
         db.session.add(player)
         db.session.commit()
-        # Home page
+        # Login page
         return redirect(url_for("login"))
     else:
         return render_template("my_registration_form.html", form=form)
