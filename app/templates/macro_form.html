@@ -1,26 +1,17 @@
-{% macro add_elements(task) %}
-<tr>
-    <td>{{ task.name }}</td>
-    <td>{{ task.description }}</td>
-    <td>{{ task.date }}</td>
+{% macro showPlayer(player, current_user) %}
+  <tr>
+    <td>{{ player.pseudo }}</td>
     <td>
-        {% if task.status== True %}
-               <form method="post" action="/state/{{ task.name }}/{{ task.id }}">
-                    <input type="submit" value = "OPEN" class="btn btn-primary">
-               </form>
-        {% endif %}
-        {% if task.status == False %}
-                <form method="post" action="/state/{{ task.name }}/{{ task.id }}">
-                    <input type="submit" value = "CLOSE" class="btn btn-primary">
-               </form>
-        {% endif %}
+      {% if player.isAdmin()%}
+        ADMIN
+      {% else %}
+        MEMBRE
+      {% endif %}
     </td>
-    <td><form method="post" action="/edit/{{ task.name }}/{{ task.id }}" style="float: left">
-            <input value="Editer" type="submit" class="btn btn-warning">
-        </form>
-        <form method="get" action="/remove/{{ task.name }}/{{ task.id }}">
-            <input value="Supprimer" type="submit" class="btn btn-danger">
-        </form> </td>
+    {% if current_user.isAdmin() or current_user.pseudo == player.pseudo %}
+      <td> <a href="/editPlayer/id={{player.getId()}}">Modify</a></td>
+      <td> <a href="/deletePlayer/id={{player.getId()}}">Delete</a></td>
+    {% endif %}
   </tr>
 {% endmacro %}
 

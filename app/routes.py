@@ -2,8 +2,7 @@ from asyncio import tasks
 
 from app import app, db
 from flask import render_template, redirect, url_for, flash, request
-from app.forms import MyLoginForm
-from app.forms import MyRegistrationForm
+from app.forms import*
 from app.models import*
 from werkzeug.urls import url_parse
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
@@ -12,10 +11,13 @@ import datetime
 from flask_login import login_required, login_user,logout_user, current_user
 
 #create admin account
-def create_admin():
+def create_players():
     user = Joueur(pseudo = "admin",prenom = "stephane", nom="leblanc",admin=True, naissance = datetime.date(1998,6,1), team=None)
     user.set_password("admin")
+    user2 = Joueur(pseudo="joueur", prenom="Sylvério", nom="Pool",admin=False, naissance=datetime.date(1998,8,27),team=None)
+    user2.set_password("joueur")
     db.session.add(user)
+    db.session.add(user2)
     db.session.commit()
 
 def createMatos():
@@ -23,7 +25,7 @@ def createMatos():
     db.session.add(matos)
     db.session.commit()
 
-create_admin()
+create_players()
 createMatos()
 
 ####################
@@ -138,9 +140,8 @@ def logout():
 @app.route("/players")
 @login_required
 def players():
-    #players = Joueur.query.all()
-    #return render_template("listPlayer.html",players=players)
-    return render_template("joueurs.html")
+    players = Joueur.query.all()
+    return render_template("joueurs.html", players=players)
 
 # Page des équipes
 @app.route("/teams")
@@ -248,7 +249,7 @@ def editPlayer(id):
     val = int(id)
     player = Joueur.query.get(val)
     # Formulaire adéquat
-    form = EditPLayerForm()
+    form = EditPlayerForm()
     if form.validate_on_submit():
         # Traitement du nouveau pseudo
         new_pseudo = form.username.data

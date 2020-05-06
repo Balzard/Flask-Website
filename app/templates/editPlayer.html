@@ -1,0 +1,45 @@
+{% extends "parent.html" %}
+
+
+{% block content %}
+  <h1>Modify a player</h1>
+  <div style="margin-top: 150px;">
+    <form novalidate action="/editPlayer/id={{player.getId()}}" method="POST" style="text-align: center;">
+      {{ form.csrf_token }}
+
+      <ul class="field_error">
+         {% for message in form.username.errors %}
+           <li>{{message}}</li>
+         {% endfor %}
+       </ul>
+      {{ form.username.label }}<br>
+      {{ form.username(value=player.pseudo)}}<br>
+
+      <ul class="field_error">
+         {% for message in form.old_password.errors %}
+           <li>{{message}}</li>
+         {% endfor %}
+       </ul>
+      {{ form.old_password.label}}<br>
+      {{ form.old_password}}<br>
+
+      <ul class="field_error">
+         {% for message in form.new_password_1.errors %}
+           <li>{{message}}</li>
+         {% endfor %}
+       </ul>
+      {{ form.new_password_1.label}}<br>
+      {{ form.new_password_1}}<br>
+
+      <ul class="field_error">
+         {% for message in form.new_password_2.errors %}
+           <li>{{message}}</li>
+         {% endfor %}
+       </ul>
+      {{ form.new_password_2.label}}<br>
+      {{ form.new_password_2}}<br><br>
+
+      {{ form.submit (class="btn btn-primary")}}
+    </form>
+  </div>
+{% endblock %}

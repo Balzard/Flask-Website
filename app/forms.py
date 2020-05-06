@@ -27,15 +27,18 @@ class MyRegistrationForm(FlaskForm):
 class MyCommentForm(FlaskForm):
     comm = StringField("Commentaire :", validators=[InputRequired(), Length(min=3,max=210)])
 
-class EditPLayerForm(FlaskForm):
+class EditPlayerForm(FlaskForm):
     username = StringField("New username :", validators=[InputRequired(), Length(min=5,max=80)])
-    old_password = StringField("Old password :", validators=[Length(min=3,max=16)])
-    new_password_1 = StringField("New password  :", validators=[Length(min=3,max=16)])
-    new_password_2 = StringField("Confirm new password  :", validators=[EqualTo("new_password_1")])
+    old_password = PasswordField("Old password :", validators=[Length(max=16)])
+    new_password_1 = PasswordField("New password  :", validators=[Length(max=16)])
+    new_password_2 = PasswordField("Confirm new password  :", validators=[EqualTo("new_password_1")])
     submit = SubmitField("Edit Player")
     def validate_username(self, username):
-        user = Joueur.query.filter_by(pseudo=username.data).first()
-        if user is not None:
+        user = Joueur.query.filter_by(pseudo=username.data)
+        list = []
+        for tmp in user:
+            list.append(tmp.getId())
+        if len(list) > 1:
               raise ValidationError('Please use a different username.')
 
 class EditTeamForm(FlaskForm):

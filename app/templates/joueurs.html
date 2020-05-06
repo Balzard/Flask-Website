@@ -1,5 +1,16 @@
 {% extends "parent.html" %}
+{% import "macro_form.html" as macros %}
 
 {% block content %}
-
+<div class="content">
+  <table class="playerTable">
+    <tr>
+      <th>Pseudo</th>
+      <th>Catégorie</th>
+    </tr>
+    {% for player in players %}
+      {{macros.showPlayer(player, current_user)}}
+    {% endfor %}
+  </table>
+</div>
 {% endblock %}

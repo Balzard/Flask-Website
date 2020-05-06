@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from app.forms import MyRegistrationForm
-from app import db, login_manager
+from app import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from datetime import datetime
 
@@ -60,6 +60,9 @@ class Joueur(UserMixin ,db.Model):
     def editMdp(self, new_mdp):
         self.mdp = new_mdp
 
+    def isAdmin(self):
+        return self.admin
+
 class Materiel(db.Model):
     __tablename__ = "materiel"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -84,6 +87,7 @@ db.drop_all()
 db.create_all()
 
 # callback to reload the user object
+from app import login_manager
 @login_manager.user_loader
 def load_user(userid):
     return Joueur.query.get(int(userid))
