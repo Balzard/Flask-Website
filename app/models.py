@@ -8,7 +8,11 @@ class Equipe(db.Model):
     __tablename__ = "equipe"
     nom = db.Column(db.String, primary_key=True)
     #j'ai mis en commentaire car j'avais une erreure à cause de cette ligne (Stephane)
-    #players = db.relationship("Joueur", backref="equipe", lazy="dynamic")
+    # normalement j'ai résolu le problème
+    players = db.relationship("Joueur", backref="team", lazy="dynamic")
+
+    def editName(self,new_name):
+        self.nom = new_name
 
 class Entrainement(db.Model):
     __tablename__ = "entrainement"
@@ -50,6 +54,12 @@ class Joueur(UserMixin ,db.Model):
     def check_password(self, mdp):
         return check_password_hash(self.mdp_hash, mdp)
 
+    def editPseudo(self, new_pseudo):
+        self.pseudo = new_pseudo
+
+    def editMdp(self, new_mdp):
+        self.mdp = new_mdp
+
 class Materiel(db.Model):
     __tablename__ = "materiel"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -59,8 +69,9 @@ class Materiel(db.Model):
 class Produit(db.Model):
     __tablename__  = "produit"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nom = db.Column(db.String(15), nullable=False, unique=True)
     quantite = db.Column(db.Integer, nullable=False)
-    type = db.Column(db.String, nullable=False)
+    type = db.Column(db.String(15), nullable=False)
     tarif = db.Column(db.Float, nullable=False)
 
 class Commentaire(db.Model):
@@ -68,7 +79,6 @@ class Commentaire(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     texte = db.Column(db.String(210), nullable=False)
     autheur = db.Column(db.String(21), nullable=False)
-
 
 db.drop_all()
 db.create_all()

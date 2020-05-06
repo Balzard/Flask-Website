@@ -4,7 +4,7 @@ from app import app, db
 from flask import render_template, redirect, url_for, flash, request
 from app.forms import MyLoginForm
 from app.forms import MyRegistrationForm
-from app.models import Joueur
+from app.models import*
 from werkzeug.urls import url_parse
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
 import datetime
@@ -13,12 +13,18 @@ from flask_login import login_required, login_user,logout_user, current_user
 
 #create admin account
 def create_admin():
-    user = Joueur(pseudo = "admin",prenom = "stephane", nom="leblanc",admin=True, naissance = datetime.datetime(1998,6,1))
+    user = Joueur(pseudo = "admin",prenom = "stephane", nom="leblanc",admin=True, naissance = datetime.date(1998,6,1), team=None)
     user.set_password("admin")
     db.session.add(user)
     db.session.commit()
 
+def createMatos():
+    matos = Materiel(quantite=5, type="filet")
+    db.session.add(matos)
+    db.session.commit()
+
 create_admin()
+createMatos()
 
 ####################
 # Public section   #
@@ -51,7 +57,7 @@ def goldCarnet():
 
 # Materiel page
 @app.route("/materiel")
-def material(): 
+def materiel():
     #matos = Materiel.query.all()
     #return render_template("materiel.html", matos=matos)
     return render_template("materiel.html")
@@ -69,7 +75,7 @@ def inscription():
         birthDate = form.date.data
         password = form.password2.data
         # Create new Joueur
-        player = Joueur(pseudo=username,mdp=password,nom=lastName,prenom=firstName,naissance=birthDate,admin=False)
+        player = Joueur(pseudo=username,mdp=password,nom=lastName,prenom=firstName,naissance=birthDate,admin=False,team=None)
         player.set_password(password)
         # Add player to the db
         db.session.add(player)
@@ -163,6 +169,7 @@ def playersInTeams():
 # Admin section  #
 ##################
 
+
 # Supprimer un joueur d'une équipe
 @app.route("/deleteFromTeam/id=<id>")
 @login_required
@@ -206,6 +213,7 @@ def deleteMatos(id):
     else:
         msg = "Le matériel recherché n'existe pas."
         return render_template("404.html", msg=msg), 400
+    return redirect(url_for("materiel"))
 
 # Supprimer une équipe => mettre un alert en JS si il y a encore des joueurs
 @app.route("/deleteTeam/name=<name>")
@@ -231,3 +239,66 @@ def deleteProd(id):
     else:
         msg = "Le produit recherché est introuvable."
         return render_template("404.html", msg=msg), 400
+
+# Modifier un joueur -> le bouton ne sera dispo que pour l'admin ou le joueur conerné (Jinja2)
+# Faire un JS demandant que la section old password soit remplie pour remplir new password
+@app.route("/editPlayer/id=<id>", methods=["GET","POST"])
+@login_required
+def editPlayer(id):
+    val = int(id)
+    player = Joueur.query.get(val)
+    # Formulaire adéquat
+    form = EditPLayerForm()
+    if form.validate_on_submit():
+        # Traitement du nouveau pseudo
+        new_pseudo = form.username.data
+        player.editPseudo(new_pseudo)
+        # Traitement du nouveau mdp
+        old_mdp = form.old_password.data
+        new_mdp = form.new_password_2.data
+        if old_mdp:
+            # Verification du mdp
+            if not player.check_password(old_mdp):
+                flash("Wrong Password", "info")
+                return redirect(url_for("editPlayer", id=id))
+            else:
+                player.editMdp(new_mdp)
+                player.set_password(new_mdp)
+        db.session.commit()
+        return redirect(url_for("players"))
+    else:
+        return render_template("editPlayer.html", player=player, form=form)
+
+# Edit team
+@app.route("/editTeam/nom=<nom>")
+@login_required
+def editTeam(nom):
+    equipe = Equipe.query.get(nom)
+    form = EditTeamForm()
+    if form.validate_on_submit():
+        new_name = form.name.data
+        equipe.editName(new_name)
+        db.session.commit()
+        return redirect(url_for("teams"))
+    else:
+        render_template("editTeam.html", equipe=equipe, form=form)
+
+# Edit a product
+@app.route("/editProduct/id=<id>", methods=["GET","POST"])
+@login_required
+def editProduct(id):
+    val = int(id)
+    prod = Produit.query.get(val)
+    form = MyProductForm()
+    if form.validate_on_submit():
+        # Récupération des données
+        new_name = form.name.data
+        new_quantite = form.quantite.data
+        new_type = form.type.data
+        new_tarif = form.tarif.data
+        # Modification
+        prod.editProd(new_name, new_quantite, new_type, new_tarif)
+        db.session.commit()
+        return redirect(url_for("products"))
+    else:
+        return render_template("editProduct.html",form=form,prod=prod)
