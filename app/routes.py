@@ -1,7 +1,7 @@
-from asyncio import tasks
-
 from app import app, db
 from flask import render_template, redirect, url_for, flash, request
+from flask import jsonify
+from flask import json
 from app.forms import*
 from app.models import*
 from werkzeug.urls import url_parse
@@ -14,17 +14,31 @@ from flask_login import login_required, login_user,logout_user, current_user
 def create_players():
     user = Joueur(pseudo = "admin",prenom = "stephane", nom="leblanc",admin=True, naissance = datetime.date(1998,6,1), team=None)
     user.set_password("admin")
-    user2 = Joueur(pseudo="joueur", prenom="Sylvério", nom="Pool",admin=False, naissance=datetime.date(1998,8,27),team=None)
+    equipe = Equipe.query.get("Equipe A")
+    user2 = Joueur(pseudo="joueur", prenom="Sylvério", nom="Pool",admin=False, naissance=datetime.date(1998,8,27),team=equipe)
     user2.set_password("joueur")
+    user3 = Joueur(pseudo="membre", prenom="Sindy", nom="Willems",admin=False, naissance=datetime.date(1997,3,21),team=equipe)
+    user3.set_password("membre")
     db.session.add(user)
     db.session.add(user2)
+    db.session.add(user3)
     db.session.commit()
 
 def createMatos():
     matos = Materiel(quantite=5, type="filet")
+    matos2 = Materiel(quantite=4, type="table")
     db.session.add(matos)
+    db.session.add(matos2)
     db.session.commit()
 
+def createTeam():
+    team = Equipe(nom="Equipe A")
+    team2 = Equipe(nom="Equipe B")
+    db.session.add(team)
+    db.session.add(team2)
+    db.session.commit()
+
+createTeam()
 create_players()
 createMatos()
 
@@ -147,21 +161,21 @@ def players():
 @app.route("/teams")
 @login_required
 def teams():
-    #teams = Equipe.query.all()
-    #return render_template("teams.html",teams=teams)
-    return render_template("equipes.html")
+    teams = Equipe.query.all()
+    return render_template("equipes.html", teams=teams)
 
 # Return a JSON object with all the players'id from a team
-@app.route("/playersInTeams", methods=["POST"])
+@app.route("/playersInTeam", methods=["POST"])
 @login_required
 def playersInTeams():
-    nom = request.form["nom"]
-    #
+    nom = request.form["name"]
+    # Take the team involved
     team = Equipe.query.get(nom)
+    # Take all the players related to this team
     players_team = team.players
     list = []
     for player in players_team:
-        list.append(player.getUsername())
+        list.append(player.getId())
     return json.dumps(list)
 
 
@@ -303,3 +317,14 @@ def editProduct(id):
         return redirect(url_for("products"))
     else:
         return render_template("editProduct.html",form=form,prod=prod)
+
+##################
+# AJAX routes    #
+##################
+@app.route("/askPlayerInfo", methods=["POST"])
+@login_required
+def askPlayerInfo():
+    id = request.form["id"]
+    id = int(id)
+    player = Joueur.query.get(id)
+    return json.dumps({"id": player.getId(), "pseudo": player.getUsername(), "admin": current_user.isAdmin()})

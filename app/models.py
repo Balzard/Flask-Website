@@ -14,6 +14,9 @@ class Equipe(db.Model):
     def editName(self,new_name):
         self.nom = new_name
 
+    def getName(self):
+        return self.nom
+
 class Entrainement(db.Model):
     __tablename__ = "entrainement"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

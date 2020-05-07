@@ -8,41 +8,23 @@
         MEMBRE
       {% endif %}
     </td>
-    {% if current_user.isAdmin() or current_user.pseudo == player.pseudo %}
+    {% if current_user.pseudo == player.pseudo %}
       <td> <a href="/editPlayer/id={{player.getId()}}">Modify</a></td>
+    {% endif %}
+    {% if current_user.isAdmin()%}
       <td> <a href="/deletePlayer/id={{player.getId()}}">Delete</a></td>
     {% endif %}
   </tr>
 {% endmacro %}
 
-<!-- macro to add user in the user page-->
-{% macro list_users(user) %}
-    <td>{{ user.username }}</td>
-    <td>{{ user.firstName }}</td>
-    <td>{{ user.lastName }}</td>
+{% macro showTeam(team, current_user)%}
+  <tr>
+    <td>{{team.getName()}}</td>
     <td>
-        {% if user.admin == True %}
-               <form method="get" action="/admin/{{ user.username }}">
-                    <input type="submit" value = "Admin" class="btn btn-primary">
-               </form>
-        {% endif %}
-        {% if user.admin == False %}
-                <form method="get" action="/admin/{{ user.username }}">
-                    <input type="submit" value = "Basic user" class="btn btn-primary">
-               </form>
-        {% endif %}
-    </td>
-    <td>
-        {% if user.blocked == True %}
-               <form method="get" action="/block/{{ user.username }}">
-                    <input type="submit" value = "Blocked" class="btn btn-primary">
-               </form>
-        {% endif %}
-        {% if user.blocked == False %}
-                <form method="get" action="/block/{{ user.username }}">
-                    <input type="submit" value = "Not Blocked" class="btn btn-primary">
-               </form>
-        {% endif %}
+      <button type="button" class="teamView" id="{{team.getName()}}">View players</button>
+      {% if current_user.isAdmin()%}
+        <button type="button">Delete</button>
+      {% endif %}
     </td>
   </tr>
 {% endmacro %}
