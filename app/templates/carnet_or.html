@@ -1,17 +1,29 @@
 {% extends "parent.html" %}
+{% import "macro_form.html" as macros %}
 
 {% block content %}
 
 
 
-<table width="100%" border="collapse" style="margin-top: 50px;" class="table">
+<table width="100%" border="collapse" style="margin-top: 150px;" class="table">
 	<thead class="thead-light" id="table_carnet">
 	    <tr>
 	        <th>Auteur</th>
 	        <th>Date</th>
 	        <th>Message</th>
 	    </tr>
+			{% if comms %}
+				{% for comm in comms %}
+					{{macros.showComm(comm)}}
+				{% endfor %}
+			{% else %}
+				<tr>
+					<td>No comms available.</td>
+				</tr>
+			{% endif %}
 	</thead>
 </table>
+
+<a href="/comment">Add a comment</a>
 
 {% endblock %}

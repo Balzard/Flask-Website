@@ -38,9 +38,15 @@ def createTeam():
     db.session.add(team2)
     db.session.commit()
 
+def createComm():
+    comm = Commentaire(texte="C'est trop bien", auteur="anonyme", date=datetime.date.today())
+    db.session.add(comm)
+    db.session.commit()
+
 createTeam()
 create_players()
 createMatos()
+createComm()
 
 ####################
 # Public section   #
@@ -67,9 +73,9 @@ def training():
 # Carnet d'or page
 @app.route("/goldCarnet")
 def goldCarnet():
-    #comms = Commentaire.query.all()
-    #return render_template("goldCarnet.html", comms=comms)
-    return render_template("carnet_or.html")
+    comms = Commentaire.query.all()
+    list = []
+    return render_template("carnet_or.html",comms=comms)
 
 # Materiel page
 @app.route("/materiel")
@@ -133,12 +139,13 @@ def comment():
     form = MyCommentForm()
     if form.validate_on_submit():
         txt = form.comm.data
-        new_comm = Commentaire(texte=txt,autheur=pseudo)
+        date = datetime.date.today()
+        new_comm = Commentaire(texte=txt,auteur=pseudo,date=date)
         db.session.add(new_comm)
         db.session.commit()
         return redirect(url_for("goldCarnet"))
     else:
-        return render_template("comment.html",form=form)
+        return render_template("comment.html",form=form,pseudo=pseudo)
 
 ####################
 # Player section   #

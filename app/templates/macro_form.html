@@ -28,3 +28,11 @@
     </td>
   </tr>
 {% endmacro %}
+
+{% macro showComm(comm) %}
+  <tr>
+    <td>{{comm.getAuthor()}}</td>
+    <td>{{comm.getDate()}}</td>
+    <td>{{comm.getMessage()}}</td>
+  </tr>
+{% endmacro %}

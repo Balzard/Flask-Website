@@ -84,7 +84,20 @@ class Commentaire(db.Model):
     __tablename__ = "commentaire"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     texte = db.Column(db.String(210), nullable=False)
-    autheur = db.Column(db.String(21), nullable=False)
+    auteur = db.Column(db.String(21), nullable=False)
+    date = db.Column(db.DATE, nullable=False)
+
+    def getId(self):
+        return self.id
+
+    def getAuthor(self):
+        return self.auteur
+
+    def getDate(self):
+        return str(self.date)
+
+    def getMessage(self):
+        return self.texte
 
 db.drop_all()
 db.create_all()

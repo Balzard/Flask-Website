@@ -26,6 +26,7 @@ class MyRegistrationForm(FlaskForm):
 
 class MyCommentForm(FlaskForm):
     comm = StringField("Commentaire :", validators=[InputRequired(), Length(min=3,max=210)])
+    submit = SubmitField("Send")
 
 class EditPlayerForm(FlaskForm):
     username = StringField("New username :", validators=[InputRequired(), Length(min=5,max=80)])
