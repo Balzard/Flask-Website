@@ -88,6 +88,11 @@ def materiel():
     #return render_template("materiel.html", matos=matos)
     return render_template("materiel.html")
 
+# Produit bar page
+@app.route("/bar")
+def bar():
+    return "page des produits bar"
+
 # Inscription page (inscription au club)
 # Ajout dans la bd et utilisation de formulaire
 @app.route("/inscription", methods=["GET","POST"])

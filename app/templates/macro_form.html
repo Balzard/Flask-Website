@@ -12,7 +12,7 @@
       <td> <a href="/editPlayer/id={{player.getId()}}">Modify</a></td>
     {% endif %}
     {% if current_user.isAdmin()%}
-      <td> <a href="/deletePlayer/id={{player.getId()}}">Delete</a></td>
+      <td> <a href="/deletePlayer/id={{player.getId()}}" onclick="return confirm('delete {{player.getUsername()}} ?')">Delete</a></td>
     {% endif %}
   </tr>
 {% endmacro %}
