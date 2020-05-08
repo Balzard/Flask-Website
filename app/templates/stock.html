@@ -21,6 +21,7 @@
       $("#prod"+id).append(tmp)
       tmp = "<td>"+quantite+"</td>"
       $("#prod"+id).append(tmp)
+      $("#prod"+id).append("<td><button>Supprimer</button></td>")
     }
     // main fonction
     $(document).ready(function(){
@@ -109,7 +110,7 @@
     })
   </script>
 
-  <div style="margin-top: 150px;">
+  <div style="margin-top: 70px;">
     <h1>Stock des produits bar</h1>
     <h3>Tous les produits.</h3>
     <input type="text" placeholder="select a type" id="searchInput">

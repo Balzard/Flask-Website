@@ -20,6 +20,7 @@
 		$("#comm"+id).append(auteur_td);
 		$("#comm"+id).append(date_td);
 		$("#comm"+id).append(texte_td);
+
 	}
 	// main function
 	$(document).ready(function(){
@@ -61,6 +62,7 @@
 											success : function(data){
 												commJS = JSON.parse(data);
 												addComment(commJS);
+												$("#allComm").html("Résultats pour " + $("#searchInput").val())
 											}
 										})
 									})
@@ -93,6 +95,8 @@
 							success : function(data){
 								commJS = JSON.parse(data);
 								addComment(commJS);
+								$("#allComm").html("All comments")
+								$("#searchInput").val("")
 							}
 						})
 					})
@@ -102,14 +106,14 @@
 	})
 </script>
 
-<div class="content">
+<div class="content" style="margin-top: -70px;">
 	<h1>Carnet d'or</h1>
 
 	<input type="text" placeholder="select an author" id="searchInput">
-	<button type="button" id="search"> search</button>
-	<button type="button" id="all">all</button>
+	<button type="button" id="search" class="btn btn-secondary">search</button>
+	<button type="button" id="all" class="btn btn-secondary">all</button>
 
-	<h3>All comments</h3>
+	<h3 id="allComm">All comments</h3>
 
 	<table width="100%" border="collapse" class="table" id="commentTable">
 		<thead class="thead-light" id="table_carnet">
@@ -130,7 +134,7 @@
 		</thead>
 	</table>
 
-	<a href="/comment">Add a comment</a>
+	<a href="/comment" class="btn btn-primary">Add a comment</a>
 </div>
 
 

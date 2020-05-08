@@ -1,0 +1,24 @@
+{% extends "parent.html"%}
+
+{% block content%}
+  <div style="margin-top :70px;">
+    <h1>Edit a product for the bar</h1>
+    <form novalidate style="text-align: center;" action="/editStock" method="POST">
+      {{form.csrf_token}}
+
+      {{form.name.label}}<br>
+      {{form.name (value=prod.name)}}<br>
+
+      {{form.quantite.label}}<br>
+      {{form.quantite (value=prod.quantite)}}<br>
+
+      {{form.type.label}}<br>
+      {{form.type (class="form-control-lg", value=prod.type)}}<br>
+
+      {{form.tarif.label}}<br>
+      {{form.tarif (value=prod.tarif)}}<br><br>
+
+      {{form.submit (class="btn btn-primary")}}
+    </form>
+  </div>
+{% endblock%}

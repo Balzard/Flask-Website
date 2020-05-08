@@ -26,7 +26,7 @@ class MyCommentForm(FlaskForm):
     submit = SubmitField("Send")
 
 class EditPlayerForm(FlaskForm):
-    username = StringField("New username :", validators=[InputRequired(), Length(min=5,max=80)])
+    username = StringField("New username :", validators=[InputRequired(), Length(min=3,max=80)])
     old_password = PasswordField("Old password :", validators=[Length(max=16)])
     new_password_1 = PasswordField("New password  :", validators=[Length(max=16)])
     new_password_2 = PasswordField("Confirm new password  :", validators=[EqualTo("new_password_1")])
