@@ -1,0 +1,20 @@
+{% extends "parent.html" %}
+{% import "macro_form.html" as macros%}
+
+{% block content %}
+  <div style="margin-top: 150px;">
+    <h1>Produits disponibles au bar</h1>
+    <table width="100%" border="collapse" class="table" id="barTable">
+      <tr>
+        <th>Produit</th>
+        <th>Prix</th>
+      </tr>
+      {% for prod in products %}
+        {{macros.showProd(prod)}}
+      {% endfor %}
+    </table>
+    {% if current_user.is_authenticated and current_user.isAdmin()%}
+      <a href="stock">Voir les stocks</a>
+    {% endif%}
+  </div>
+{% endblock %}

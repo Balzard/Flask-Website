@@ -80,6 +80,12 @@ class Produit(db.Model):
     type = db.Column(db.String(15), nullable=False)
     tarif = db.Column(db.Float, nullable=False)
 
+    def getName(self):
+        return self.nom
+
+    def getPrice(self):
+        return self.tarif
+
 class Commentaire(db.Model):
     __tablename__ = "commentaire"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

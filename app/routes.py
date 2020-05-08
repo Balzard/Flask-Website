@@ -47,10 +47,18 @@ def createComm():
     db.session.add(comm3)
     db.session.commit()
 
+def createProduct():
+    prod = Produit(nom="coca", quantite=25, type="soft", tarif=1.2)
+    prod1 = Produit(nom="Paprika", quantite=10, type="chips", tarif=1.0)
+    db.session.add(prod)
+    db.session.add(prod1)
+    db.session.commit()
+
 createTeam()
 create_players()
 createMatos()
 createComm()
+createProduct()
 
 ####################
 # Public section   #
@@ -91,7 +99,8 @@ def materiel():
 # Produit bar page
 @app.route("/bar")
 def bar():
-    return "page des produits bar"
+    products = Produit.query.all()
+    return render_template("bar.html", products=products)
 
 # Inscription page (inscription au club)
 # Ajout dans la bd et utilisation de formulaire
@@ -221,11 +230,16 @@ def deleteFromTeam(id):
 @login_required
 def deletePlayer(id):
     val = int(id)
-    # Check
+    # Check if the player exists
     player = Joueur.query.get(val)
     if player:
-        db.session.delete(player)
-        db.session.commit()
+        # check if its not yourself
+        if val == current_user.getId():
+            flash("You cannot delete yourself.", "info")
+            return redirect(url_for("players"))
+        else:
+            db.session.delete(player)
+            db.session.commit()
     else:
         msg = "Joueur cherché introuvable."
         return render_template("404.html", msg=msg), 400

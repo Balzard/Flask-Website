@@ -11,8 +11,8 @@
     {% if current_user.pseudo == player.pseudo %}
       <td> <a href="/editPlayer/id={{player.getId()}}">Modify</a></td>
     {% endif %}
-    {% if current_user.isAdmin()%}
-      <td> <a href="/deletePlayer/id={{player.getId()}}" onclick="return confirm('delete {{player.getUsername()}} ?')">Delete</a></td>
+    {% if current_user.isAdmin() %}
+      <td> <a class="delete" href="/deletePlayer/id={{player.getId()}}" onclick="return confirm('delete {{player.getUsername()}} ?')">Delete</a></td>
     {% endif %}
   </tr>
 {% endmacro %}
@@ -36,3 +36,10 @@
     <td>{{comm.getMessage()}}</td>
   </tr>
 {% endmacro %}
+
+{% macro showProd(prod)%}
+  <tr>
+    <td>{{prod.getName()}}</td>
+    <td>{{prod.getPrice()}}</td>
+  </tr>
+{% endmacro%}

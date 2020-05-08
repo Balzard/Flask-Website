@@ -2,7 +2,22 @@
 {% import "macro_form.html" as macros %}
 
 {% block content %}
+<script type="text/javascript">
+
+</script>
+
 <div class="content">
+
+  {% with messages = get_flashed_messages(with_categories=true, category_filter="info")%}
+    {% if messages %}
+      <ul class="flashes">
+        {% for c, m in messages %}
+          <li class="flash_message" style="color: Red;">{{c}} : {{m}}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
   <table class="playerTable">
     <tr>
       <th>Pseudo</th>
