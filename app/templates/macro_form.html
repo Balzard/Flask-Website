@@ -23,7 +23,7 @@
     <td>
       <button type="button" class="teamView" id="{{team.getName()}}">View players</button>
       {% if current_user.isAdmin()%}
-        <button type="button">Delete</button>
+        <a href="/deleteTeam/nom={{team.getName()}}" class="deleteTeam" onclick="return confirm('delete {{team.getName()}} ?')">Delete</a>
       {% endif %}
     </td>
   </tr>

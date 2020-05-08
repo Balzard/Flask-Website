@@ -81,7 +81,19 @@
   </script>
 
   <div class="content">
+    <h1>Teams page</h1>
     <h3 id="teamName"></h3>
+
+    {% with messages = get_flashed_messages(with_categories=true, category_filter="info")%}
+      {% if messages %}
+        <ul class="flashes">
+          {% for c, m in messages %}
+            <li class="flash_message" style="color: Red;">{{c}} : {{m}}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
     <table class="teams">
       <tr>
         <th>Name</th>
@@ -91,6 +103,8 @@
         {{macros.showTeam(team, current_user)}}
       {% endfor %}
     </table>
+
+    <a href="#addTeam">Add a team</a>
 
     <table class="playersTable">
       <tr>

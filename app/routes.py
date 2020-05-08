@@ -191,19 +191,6 @@ def teams():
     teams = Equipe.query.all()
     return render_template("equipes.html", teams=teams)
 
-# Return a JSON object with all the players'id from a team
-@app.route("/playersInTeam", methods=["POST"])
-@login_required
-def playersInTeams():
-    nom = request.form["name"]
-    # Take the team involved
-    team = Equipe.query.get(nom)
-    # Take all the players related to this team
-    players_team = team.players
-    list = []
-    for player in players_team:
-        list.append(player.getId())
-    return json.dumps(list)
 
 
 
@@ -263,13 +250,24 @@ def deleteMatos(id):
     return redirect(url_for("materiel"))
 
 # Supprimer une équipe => mettre un alert en JS si il y a encore des joueurs
-@app.route("/deleteTeam/name=<name>")
+@app.route("/deleteTeam/nom=<name>")
 @login_required
 def deleteTeam(name):
     team = Equipe.query.get(name)
+    # check if team exists
     if team:
-        db.session.delete(team)
-        db.session.commit()
+        # Check if there is no player
+        players = team.players
+        list = []
+        for player in players:
+            list.append(player.getId())
+        if len(list) == 0:
+            db.session.delete(team)
+            db.session.commit()
+            return redirect(url_for("teams"))
+        else:
+            flash("Encore des joueurs dans "+name, "info")
+            return redirect(url_for("teams"))
     else:
         msg = "Equipe cherchée introuvable."
         return render_template("404.html",msg=msg), 400
@@ -380,6 +378,22 @@ def addStock():
 ##################
 # AJAX routes    #
 ##################
+# Return a JSON object with all the players'id from a team
+@app.route("/playersInTeam", methods=["POST"])
+@login_required
+def playersInTeams():
+    nom = request.form["name"]
+    # Take the team involved
+    team = Equipe.query.get(nom)
+    # Take all the players related to this team
+    players_team = team.players
+    list = []
+    for player in players_team:
+        list.append(player.getId())
+    return json.dumps(list)
+
+
+
 @app.route("/askPlayerInfo", methods=["POST"])
 @login_required
 def askPlayerInfo():
