@@ -39,8 +39,12 @@ def createTeam():
     db.session.commit()
 
 def createComm():
-    comm = Commentaire(texte="C'est trop bien", auteur="anonyme", date=datetime.date.today())
+    comm = Commentaire(texte="Comm1", auteur="anonyme", date=datetime.date.today())
+    comm2 = Commentaire(texte="Comm2", auteur="anonyme", date=datetime.date.today())
+    comm3 = Commentaire(texte="Comm3", auteur="joueur", date=datetime.date.today())
     db.session.add(comm)
+    db.session.add(comm2)
+    db.session.add(comm3)
     db.session.commit()
 
 createTeam()
@@ -335,3 +339,48 @@ def askPlayerInfo():
     id = int(id)
     player = Joueur.query.get(id)
     return json.dumps({"id": player.getId(), "pseudo": player.getUsername(), "admin": current_user.isAdmin()})
+
+@app.route("/confirmAuthor", methods=["POST"])
+def confirmAuthor():
+    # Get the data
+    name = request.form["name"]
+    comms = Commentaire.query.all()
+    # Look for all the authors
+    list = []
+    for comm in comms:
+        tmp = comm.getAuthor()
+        if tmp not in list:
+            list.append(tmp)
+    # Check if name is in the author list
+    if name in list:
+        return json.dumps(True)
+    else:
+        return json.dumps(False)
+
+@app.route("/commsFromAuthor", methods=["POST"])
+def commsFromAuthor():
+    # Get the data
+    name = request.form["name"]
+    comms = Commentaire.query.filter_by(auteur=name).all()
+    # Take the id
+    list = []
+    for comm in comms:
+        list.append(comm.getId())
+    return json.dumps(list)
+
+@app.route("/infoComm", methods=["POST"])
+def infoComm():
+    id = request.form["id"]
+    id = int(id)
+    # Take the comm involved
+    comm = Commentaire.query.get(id)
+    # Return the information under JSON format
+    return json.dumps({"id": comm.getId(), "auteur": comm.getAuthor(), "date": comm.getDate(), "texte": comm.getMessage()})
+
+@app.route("/allComm", methods=["POST"])
+def allComm():
+    comms = Commentaire.query.all()
+    list = []
+    for comm in comms:
+        list.append(comm.getId())
+    return json.dumps(list)

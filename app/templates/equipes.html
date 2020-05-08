@@ -72,7 +72,7 @@
           url : "playersInTeam",
           success : function(data){
             // We have the ids in a string array
-            idList = JSON.parse(data);
+            var idList = JSON.parse(data);
             playersTeam(idList, name_team);
           }
         })
