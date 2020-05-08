@@ -50,8 +50,10 @@ def createComm():
 def createProduct():
     prod = Produit(nom="coca", quantite=25, type="soft", tarif=1.2)
     prod1 = Produit(nom="Paprika", quantite=10, type="chips", tarif=1.0)
+    prod2 = Produit(nom="Sel", quantite=15, type="chips", tarif=1.0)
     db.session.add(prod)
     db.session.add(prod1)
+    db.session.add(prod2)
     db.session.commit()
 
 createTeam()
@@ -348,6 +350,33 @@ def editProduct(id):
     else:
         return render_template("editProduct.html",form=form,prod=prod)
 
+# voir les stocks des produits bars restant
+# ATTENTION : mettre une sécurité car un joueur pourrait y accéder
+@app.route("/stock")
+@login_required
+def stock():
+    products = Produit.query.all()
+    return render_template("stock.html", products=products)
+
+# Ajouter un produit dans les stocks
+@app.route("/addStock", methods=["GET","POST"])
+@login_required
+def addStock():
+    form = MyProductForm()
+    if form.validate_on_submit():
+        # Take data back
+        name = form.name.data
+        quantite = form.quantite.data
+        type = form.type.data
+        tarif = form.tarif.data
+        # create a new product
+        prod = Produit(nom=name, quantite=quantite, type=type, tarif=tarif)
+        db.session.add(prod)
+        db.session.commit()
+        return redirect(url_for("stock"))
+    else:
+        return render_template("addStock.html", form=form)
+
 ##################
 # AJAX routes    #
 ##################
@@ -402,4 +431,41 @@ def allComm():
     list = []
     for comm in comms:
         list.append(comm.getId())
+    return json.dumps(list)
+
+@app.route("/confirmType", methods=["POST"])
+def confirmType():
+    name = request.form["name"]
+    # Take back the product with the type = name
+    prods = Produit.query.filter_by(type=name).all()
+    # Say if there are products or no
+    if prods:
+        return json.dumps(True)
+    else:
+        return json.dumps(False)
+
+@app.route("/prodsFromType", methods=["POST"])
+def prodsFromType():
+    name = request.form["name"]
+    prods = Produit.query.filter_by(type=name).all()
+    #
+    list = []
+    #
+    for prod in prods:
+        list.append(prod.getId())
+    return json.dumps(list)
+
+@app.route("/infoProd", methods=["POST"])
+def infoProd():
+    id = request.form["id"]
+    id = int(id)
+    prod = Produit.query.get(id)
+    return json.dumps({"id": prod.getId(), "nom": prod.getName(), "quantite": prod.getQuant(), "type": prod.getType(), "tarif": prod.getPrice()})
+
+@app.route("/allProd", methods=["POST"])
+def allProd():
+    prods = Produit.query.all()
+    list = []
+    for prod in prods:
+        list.append(prod.getId())
     return json.dumps(list)

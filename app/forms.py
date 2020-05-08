@@ -3,9 +3,6 @@ from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import ValidationError, InputRequired, Length, Email, EqualTo
 
-#herite de flaskform
-
-
 class MyLoginForm(FlaskForm):
      username = StringField('Username :', validators=[InputRequired(), Length(min=5, max=80)])
      password = PasswordField('Password :', validators=[InputRequired(), Length(min=3, max=16)])
@@ -48,7 +45,8 @@ class EditTeamForm(FlaskForm):
 class MyProductForm(FlaskForm):
     name = StringField("Nom :", validators=[InputRequired(), Length(min=5,max=21)])
     quantite = StringField("Quantité :", validators=[InputRequired(), Length(min=1,max=3)])
-    type = SelectField("Type :", choices=[("drink","Boisson"), ("eat","Nourriture")])
+    type = SelectField("Type :", choices=[("alcool","alcool"), ("nourriture","nourriture"), ("chips","chips"), ("softs","softs")])
     tarif = StringField("Tarif :", validators=[InputRequired(), Length(min=1,max=4)])
+    submit = SubmitField("Add product")
 
 from app.models import Joueur

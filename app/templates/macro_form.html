@@ -40,6 +40,19 @@
 {% macro showProd(prod)%}
   <tr>
     <td>{{prod.getName()}}</td>
+    <td>{{prod.getType()}}</td>
     <td>{{prod.getPrice()}}</td>
+  </tr>
+{% endmacro%}
+
+{% macro showStock(prod)%}
+  <tr>
+    <td>{{prod.getName()}}</td>
+    <td>{{prod.getType()}}</td>
+    <td>{{prod.getQuant()}}</td>
+    <td>
+      <a href="/deleteProd/id={{prod.getId()}}">Delete</a>
+      <a href="/editProduct/id={{prod.getId()}}">Edit</a>
+    </td>
   </tr>
 {% endmacro%}
