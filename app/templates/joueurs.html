@@ -18,10 +18,13 @@
     {% endif %}
   {% endwith %}
 
-  <table class="playerTable">
+  <table class="table" id="playerTable">
     <tr>
       <th>Pseudo</th>
       <th>Catégorie</th>
+      {% if current_user.isAdmin() %}
+        <th>Option</th>
+      {% endif %}
     </tr>
     {% for player in players %}
       {{macros.showPlayer(player, current_user)}}

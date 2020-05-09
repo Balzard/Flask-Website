@@ -1,5 +1,74 @@
 {% extends "parent.html" %}
+{% import "macro_form.html" as macros %}
 
 {% block content %}
+
+<script type="text/javascript">
+  // main
+  $(document).ready(function(){
+    // fonction pour augmenter la quantité d'un matos
+    $(".add").click(function(){
+      // Récupérer l'id du matos
+      var tmp = $(this).attr("id").replace("add","")
+      // ajax pour ajouter une quantité au matos
+      $.ajax({
+        data : {
+          id : tmp
+        },
+        type : "POST",
+        url : "/add",
+        success : function(data){
+          var quant = JSON.parse(data)
+          // changer la quantite affichée
+          $("#quant"+tmp).empty()
+          $("#quant"+tmp).append(quant)
+        }
+      })
+    })
+    // fonction pour diminuer la quantite d'un matos
+    $(".minus").click(function(){
+      // récupérer l'id
+      var tmp = $(this).attr("id").replace("minus","")
+      // ajax pour diminuer la quant d'un matos
+      $.ajax({
+        data : {
+          id : tmp
+        },
+        type : "POST",
+        url : "/minus",
+        success : function(data){
+          var quant = JSON.parse(data)
+          // changer la quantite affichée
+          $("#quant"+tmp).empty()
+          $("#quant"+tmp).append(quant)
+        }
+      })
+    })
+  })
+</script>
+
+<div class="content" style="margin-top: 100px;">
+  <h1>Matériel disponible</h1>
+
+  <table class="table" border="collapse">
+    <thead class="thead-light" id="matosTable">
+      <tr>
+        <th>Type</th>
+        <th>Quantité</th>
+        {% if current_user.is_authenticated and current_user.isAdmin()%}
+          <th>Option</th>
+        {% endif %}
+      </tr>
+      {% for mat in matos %}
+        {{macros.showMat(mat, current_user)}}
+      {% endfor %}
+    </thead>
+
+    {% if current_user.is_authenticated and current_user.isAdmin() %}
+      <a href="#addMatos">Ajouter un matériel</a>
+    {% endif %}
+  </table>
+
+</div>
 
 {% endblock %}

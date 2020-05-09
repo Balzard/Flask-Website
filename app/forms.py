@@ -39,8 +39,9 @@ class EditPlayerForm(FlaskForm):
         if len(list) > 1:
               raise ValidationError('Please use a different username.')
 
-class EditTeamForm(FlaskForm):
-    name = StringField("New name :", validators=[InputRequired(), Length(min=1,max=11)])
+class MyTeamForm(FlaskForm):
+    name = StringField("Team name :", validators=[InputRequired(), Length(min=1,max=11)])
+    submit = SubmitField("Edit")
 
 class MyProductForm(FlaskForm):
     name = StringField("Nom :", validators=[InputRequired(), Length(min=5,max=21)])

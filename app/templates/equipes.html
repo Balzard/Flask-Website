@@ -11,7 +11,7 @@
       var admin = playerJS.admin;
       // First add a row
       var tmp = "<tr class='playerRow' id="+id+"></tr>";
-      $(".playersTable").append(tmp);
+      $("#playersTable").append(tmp);
       // Add a cell for the name
       tmp = "<td>"+pseudo+"</td>";
       $("#"+id).append(tmp);
@@ -30,7 +30,7 @@
       if(idList.length == 0){
         // Add a row for information
         var tmp = "<tr class='info'></tr>";
-        $(".playersTable").append(tmp);
+        $("#playersTable").append(tmp);
         // Add a cell to say there is no player
         tmp = "<td>There is no player in team "+name_team+".</td>"
         $("tr.info").append(tmp);
@@ -57,7 +57,7 @@
       // Fonction to take the players in a team
       $("button.teamView").click(function(){
         // Step 1 : remove the current rows of the table player
-        $(".playersTable").find("tr:gt(0)").remove();
+        $("#playersTable").find("tr:gt(0)").remove();
         // Step 2 : get back the name of the team
         var name_team = $(this).attr("id");
         $("#teamName").empty();
@@ -82,7 +82,6 @@
 
   <div class="content">
     <h1>Teams page</h1>
-    <h3 id="teamName"></h3>
 
     {% with messages = get_flashed_messages(with_categories=true, category_filter="info")%}
       {% if messages %}
@@ -94,21 +93,31 @@
       {% endif %}
     {% endwith %}
 
-    <table class="teams">
-      <tr>
+    <h3>Teams</h3>
+    <table border="collapse" class="table" id="teams">
+      <tr class="thead-light">
         <th>Name</th>
         <th>Options</th>
       </tr>
-      {% for team in teams %}
-        {{macros.showTeam(team, current_user)}}
-      {% endfor %}
+        {% for team in teams %}
+          {{macros.showTeam(team, current_user)}}
+        {% endfor %}
+        {% if not teams %}
+        <tr>
+          <td>No team left.</td>
+        </tr>
+        {% endif %}
     </table>
 
     <a href="#addTeam">Add a team</a>
 
-    <table class="playersTable">
-      <tr>
+    <h3 id="teamName">Players</h3>
+    <table class="table" id="playersTable" border="collapse">
+      <tr class="thead-light">
         <th>Pseudo</th>
+        {% if current_user.isAdmin() %}
+          <th>Option</th>
+        {% endif %}
       </tr>
       <tr>
         <td>Please select a team.</td>

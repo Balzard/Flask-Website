@@ -21,6 +21,7 @@
       <button type="button" class="teamView" id="{{team.getName()}}">View players</button>
       {% if current_user.isAdmin()%}
         <a href="/deleteTeam/nom={{team.getName()}}" class="deleteTeam" onclick="return confirm('delete {{team.getName()}} ?')">Delete</a>
+        <a href="/editTeam/nom={{team.getName()}}">Edit</a>
       {% endif %}
     </td>
   </tr>
@@ -51,5 +52,19 @@
       <a href="/deleteProd/id={{prod.getId()}}">Delete</a>
       <a href="/editProduct/id={{prod.getId()}}">Edit</a>
     </td>
+  </tr>
+{% endmacro%}
+
+{% macro showMat(mat, current_user) %}
+  <tr>
+    <td>{{mat.getType()}}</td>
+    <td id="quant{{mat.getId()}}">{{mat.getQuant()}}</td>
+    {% if current_user.is_authenticated and current_user.isAdmin() %}
+      <td>
+        <a href="/deleteMatos/id={{mat.getId()}}" onclick="return confirm('delete {{mat.getType()}} ?')">Delete</a>
+        <a href="#+" class="add" id="add{{mat.getId()}}">+</a>
+        <a href="#-" class="minus" id="minus{{mat.getId()}}">-</a>
+      </td>
+    {% endif %}
   </tr>
 {% endmacro%}

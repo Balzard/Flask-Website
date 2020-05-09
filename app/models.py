@@ -72,6 +72,21 @@ class Materiel(db.Model):
     quantite = db.Column(db.Integer, nullable=False)
     type = db.Column(db.String, nullable=False)
 
+    def getId(self):
+        return self.id
+
+    def getType(self):
+        return self.type
+
+    def getQuant(self):
+        return self.quantite
+
+    def addQuant(self):
+        self.quantite += 1
+
+    def minusQuant(self):
+        self.quantite -= 1
+
 class Produit(db.Model):
     __tablename__  = "produit"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

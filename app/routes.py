@@ -94,9 +94,8 @@ def goldCarnet():
 # Materiel page
 @app.route("/materiel")
 def materiel():
-    #matos = Materiel.query.all()
-    #return render_template("materiel.html", matos=matos)
-    return render_template("materiel.html")
+    matos = Materiel.query.all()
+    return render_template("materiel.html", matos=matos)
 
 # Produit bar page
 @app.route("/bar")
@@ -190,8 +189,6 @@ def players():
 def teams():
     teams = Equipe.query.all()
     return render_template("equipes.html", teams=teams)
-
-
 
 
 ##################
@@ -315,18 +312,32 @@ def editPlayer(id):
         return render_template("editPlayer.html", player=player, form=form)
 
 # Edit team
-@app.route("/editTeam/nom=<nom>")
+@app.route("/editTeam/nom=<nom>", methods=["GET","POST"])
 @login_required
 def editTeam(nom):
     equipe = Equipe.query.get(nom)
-    form = EditTeamForm()
+    form = MyTeamForm()
     if form.validate_on_submit():
         new_name = form.name.data
         equipe.editName(new_name)
         db.session.commit()
         return redirect(url_for("teams"))
     else:
-        render_template("editTeam.html", equipe=equipe, form=form)
+        return render_template("editTeam.html", team=equipe, form=form)
+
+# Add a team
+@app.route("/addTeam", methods=["GET","POST"])
+@login_required
+def addTeam():
+    form = MyTeamForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        equipe = Equipe(nom=name)
+        db.session.add(equipe)
+        db.session.commit()
+        return redirect(url_for("teams"))
+    else:
+        return render_template("addTeam.html", form=form)
 
 # Edit a product
 @app.route("/editProduct/id=<id>", methods=["GET","POST"])
@@ -391,8 +402,6 @@ def playersInTeams():
     for player in players_team:
         list.append(player.getId())
     return json.dumps(list)
-
-
 
 @app.route("/askPlayerInfo", methods=["POST"])
 @login_required
@@ -483,3 +492,29 @@ def allProd():
     for prod in prods:
         list.append(prod.getId())
     return json.dumps(list)
+
+@app.route("/add", methods=["POST"])
+@login_required
+def add():
+    # recuperer le matos correspondant
+    id = request.form["id"]
+    id = int(id)
+    matos = Materiel.query.get(id)
+    # ajouter une quantite
+    matos.addQuant()
+    db.session.commit()
+    # return la nouvelle quantite
+    return json.dumps(matos.getQuant())
+
+@app.route("/minus", methods=["POST"])
+@login_required
+def minus():
+    # recuperer le matos correspondant
+    id = request.form["id"]
+    id = int(id)
+    matos = Materiel.query.get(id)
+    # ajouter une quantite
+    matos.minusQuant()
+    db.session.commit()
+    # return la nouvelle quantite
+    return json.dumps(matos.getQuant())
