@@ -329,8 +329,8 @@ def editPlayer(id):
             else:
                 player.editMdp(new_mdp)
                 player.set_password(new_mdp)
-        db.session.commit()
-        return redirect(url_for("players"))
+                db.session.commit()
+        return redirect(url_for("home"))
     else:
         return render_template("editPlayer.html", player=player, form=form)
 
