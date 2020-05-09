@@ -55,4 +55,12 @@ class MyMatosForm(FlaskForm):
     quantite = StringField("Quantité :", validators=[InputRequired(), Length(min=1, max=3)])
     submit = SubmitField("Add")
 
+class MyMatchForm(FlaskForm):
+    date = DateField("Date :", validators=[InputRequired()])
+    heure = StringField("Heure :", validators=[InputRequired(), Length(min=2, max=3)])
+    score = StringField("Score :", validators=[InputRequired(), Length(min=3, max=4)])
+    equipe = SelectField("Equipe :", coerce=str)
+    rival = StringField("Adversaire :", validators=[InputRequired(), Length(min=1, max=21)])
+    submit = SubmitField("Confirmer")
+
 from app.models import Joueur

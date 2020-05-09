@@ -63,12 +63,22 @@ def createProduct():
     db.session.add(prod2)
     db.session.commit()
 
+def createMatch():
+    match = Match(heure="15h", date=datetime.date(2019,10,5), score="12-4", rival="Saint-Marc A", equipe="Equipe A",)
+    match2 = Match(heure="19h", date=datetime.date(2019,10,5), score="9-7", rival="Jambes D", equipe="Equipe B",)
+    match3 = Match(heure="15h", date=datetime.date(2019,10,12), score="5-11", rival="Moustier E", equipe="Equipe A",)
+    db.session.add(match)
+    db.session.add(match2)
+    db.session.add(match3)
+    db.session.commit()
+
 createTeam()
 create_players()
 createMatos()
 createComm()
 createProduct()
 createTraining()
+createMatch()
 
 ####################
 # Public section   #
@@ -413,6 +423,31 @@ def addMatos():
         return redirect(url_for("materiel"))
     else:
         return render_template("addMatos.html", form=form)
+
+@app.route("/addMatch", methods=["GET", "POST"])
+@login_required
+def addMatch():
+    form = MyMatchForm()
+    teams = Equipe.query.all()
+    list = []
+    i = 1
+    for team in teams:
+        tmp = (team.getName(), team.getName())
+        list.append(tmp)
+        i += 1
+    form.equipe.choices = list
+    if form.validate_on_submit():
+        date = form.date.data
+        hour = form.heure.data
+        score = form.score.data
+        team = form.equipe.data
+        rival = form.rival.data
+        match = Match(heure=hour, date=date, score=score, rival=rival, equipe=team)
+        db.session.add(match)
+        db.session.commit()
+        return redirect(url_for("matchs"))
+    else:
+        return render_template("addMatch.html", form=form)
 
 ##################
 # AJAX routes    #

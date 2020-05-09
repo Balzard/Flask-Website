@@ -18,8 +18,9 @@
     {% endif %}
   {% endwith %}
 
+  <h1>Liste de force du club</h1>
   <table class="table" id="playerTable">
-    <tr>
+    <tr class="thead-light">
       <th>Pseudo</th>
       <th>Catégorie</th>
       {% if current_user.isAdmin() %}

@@ -1,0 +1,29 @@
+{% extends "parent.html"%}
+
+{% block content%}
+  <div style="margin-top :100px;">
+    <h1>Ajout du résultat d'un match</h1>
+    <form novalidate style="text-align: center;" action="/addMatch" method="POST">
+      {{form.csrf_token}}
+
+      {{form.date.label}}<br>
+      {{form.date}}<br>
+
+      {{form.heure.label}}<br>
+      {{form.heure}}<br>
+
+      {{form.score.label}}<br>
+      {{form.score}}<br>
+
+      {{form.equipe.label}}<br>
+      {{form.equipe(class="form-control-lg")}}<br>
+
+      {{form.rival.label}}<br>
+      {{form.rival}}<br><br>
+
+      {{form.submit (class="btn btn-primary")}}
+    </form>
+
+    <a href="/matchs">Cancel</a>
+  </div>
+{% endblock%}

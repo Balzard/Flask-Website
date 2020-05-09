@@ -1,8 +1,23 @@
 {% extends "parent.html" %}
+{% import "macro_form.html" as macros %}
 
 {% block content %}
   <div class="content" style="margin-top: 70;">
-    <h1>Liste des matchs</h1>
+    <h1>Liste des résultats</h1>
 
+    <table class="table" border="collapse">
+      <tr class="thead-light">
+        <th>Date</th>
+        <th>Equipe</th>
+        <th>Adversaire</th>
+        <th>Score</th>
+      </tr>
+      {% for match in matchs %}
+        {{macros.showMatch(match)}}
+      {% endfor %}
+    </table>
+    {% if current_user.is_authenticated and current_user.isAdmin() %}
+      <a href="/addMatch">Add a result</a>
+    {% endif %}
   </div>
 {% endblock %}

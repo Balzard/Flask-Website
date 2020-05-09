@@ -78,3 +78,12 @@
     <td>{{training.getType()}}</td>
   </tr>
 {% endmacro %}
+
+{% macro showMatch(match) %}
+  <tr>
+    <td>{{match.getDate()}}</td>
+    <td>{{match.getTeam()}}</td>
+    <td>{{match.getRival()}}</td>
+    <td>{{match.getScore()}}</td>
+  </tr>
+{% endmacro %}
