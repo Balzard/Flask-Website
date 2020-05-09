@@ -24,6 +24,13 @@ def create_players():
     db.session.add(user3)
     db.session.commit()
 
+def createTraining():
+    training = Entrainement(type=False, jour="Lundi", heure="18h")
+    training2 = Entrainement(type=True, jour="mercredi", heure="18h30")
+    db.session.add(training)
+    db.session.add(training2)
+    db.session.commit()
+
 def createMatos():
     matos = Materiel(quantite=5, type="filet")
     matos2 = Materiel(quantite=4, type="table")
@@ -61,6 +68,7 @@ create_players()
 createMatos()
 createComm()
 createProduct()
+createTraining()
 
 ####################
 # Public section   #
@@ -80,9 +88,8 @@ def contact():
 # Training page + tarif
 @app.route("/training")
 def training():
-    #trainings = Entrainement.query.all()
-    #return render_template("training.html", trainings=trainings)
-    return render_template("entrainements.html")
+    trainings = Entrainement.query.all()
+    return render_template("entrainements.html", trainings=trainings)
 
 # Carnet d'or page
 @app.route("/goldCarnet")
@@ -190,6 +197,12 @@ def teams():
     teams = Equipe.query.all()
     return render_template("equipes.html", teams=teams)
 
+# Page des matchs
+@app.route("/matchs")
+@login_required
+def matchs():
+    matchs = Match.query.all()
+    return render_template("matchs.html", matchs=matchs)
 
 ##################
 # Admin section  #
@@ -386,6 +399,21 @@ def addStock():
     else:
         return render_template("addStock.html", form=form)
 
+# Ajouter un matos
+@app.route("/addMatos", methods=["GET","POST"])
+@login_required
+def addMatos():
+    form = MyMatosForm()
+    if form.validate_on_submit():
+        type = form.type.data
+        quantite = int(form.quantite.data)
+        matos = Materiel(type=type, quantite=quantite)
+        db.session.add(matos)
+        db.session.commit()
+        return redirect(url_for("materiel"))
+    else:
+        return render_template("addMatos.html", form=form)
+
 ##################
 # AJAX routes    #
 ##################
@@ -498,13 +526,17 @@ def allProd():
 def add():
     # recuperer le matos correspondant
     id = request.form["id"]
+    case = request.form["case"]
     id = int(id)
-    matos = Materiel.query.get(id)
+    if case == "stock":
+        item = Produit.query.get(id)
+    elif case == "matos":
+        item = Materiel.query.get(id)
     # ajouter une quantite
-    matos.addQuant()
+    item.addQuant()
     db.session.commit()
     # return la nouvelle quantite
-    return json.dumps(matos.getQuant())
+    return json.dumps(item.getQuant())
 
 @app.route("/minus", methods=["POST"])
 @login_required
@@ -512,9 +544,13 @@ def minus():
     # recuperer le matos correspondant
     id = request.form["id"]
     id = int(id)
-    matos = Materiel.query.get(id)
+    case = request.form["case"]
+    if case == "stock":
+        item = Produit.query.get(id)
+    elif case == "matos":
+        item = Materiel.query.get(id)
     # ajouter une quantite
-    matos.minusQuant()
+    item.minusQuant()
     db.session.commit()
     # return la nouvelle quantite
-    return json.dumps(matos.getQuant())
+    return json.dumps(item.getQuant())

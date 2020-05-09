@@ -37,6 +37,9 @@
           <li class="nav-item">
             <a class="nav-link" href="/bar">Produits bar</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/matchs">Matchs résultats</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -51,7 +54,7 @@
             <p class="dropdown-item">{{current_user.pseudo}}</p>
             <a class="dropdown-item" href = "editPlayer/id={{current_user.getId()}}">Modify</a>
             <a class="dropdown-item" href="/logout">Logout</a>
-           
+
           </div>
         </li>
         {% else %}

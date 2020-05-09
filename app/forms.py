@@ -48,6 +48,11 @@ class MyProductForm(FlaskForm):
     quantite = StringField("Quantité :", validators=[InputRequired(), Length(min=1,max=3)])
     type = SelectField("Type :", choices=[("alcool","alcool"), ("nourriture","nourriture"), ("chips","chips"), ("softs","softs")])
     tarif = StringField("Tarif :", validators=[InputRequired(), Length(min=1,max=4)])
-    submit = SubmitField("Add product")
+    submit = SubmitField("Send")
+
+class MyMatosForm(FlaskForm):
+    type = StringField("Type :", validators=[InputRequired(), Length(min=3,max=21)])
+    quantite = StringField("Quantité :", validators=[InputRequired(), Length(min=1, max=3)])
+    submit = SubmitField("Add")
 
 from app.models import Joueur

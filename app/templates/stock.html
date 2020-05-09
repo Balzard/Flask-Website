@@ -25,6 +25,7 @@
     }
     // main fonction
     $(document).ready(function(){
+      // function to look for a type of products
       $("#search").click(function(){
         var tmp = $("#searchInput").val();
         if(tmp == ""){
@@ -78,6 +79,7 @@
           })
         }
       })
+      // function to look for all the products
       $("#all").click(function(){
         // Step 1 : remove the current rows of the table comment
         $("#stockTable").find("tr:gt(0)").remove();
@@ -107,10 +109,50 @@
           }
         })
       })
+      // function to add a quantity of a product
+      $(".add").click(function(){
+        var tmp = $(this).attr("id").replace("add", "")
+        // ajax to add a quantite and return the total
+        $.ajax({
+          data : {
+            id : tmp,
+            case : "stock"
+          },
+          type : "POST",
+          url : "/add",
+          success : function(data){
+            var res = JSON.parse(data)
+            $("#quant"+tmp).empty()
+            $("#quant"+tmp).append(res)
+          }
+        })
+      })
+      // function to minus a quantity of a product
+      $(".minus").click(function(){
+        var tmp = $(this).attr("id").replace("minus", "")
+        // ajax
+        $.ajax({
+          data : {
+            id : tmp,
+            case : "stock"
+          },
+          type : "POST",
+          url : "/minus",
+          success : function(data){
+            var res = JSON.parse(data)
+            // Attention si quantité <= 0
+            if(quant <= "0"){
+              alert("Ce produit n'est plus en stock. Supprimer le.")
+            }
+            $("#quant"+tmp).empty()
+            $("#quant"+tmp).append(res)
+          }
+        })
+      })
     })
   </script>
 
-  <div style="margin-top: 70px;">
+  <div style="margin-top: 100px;">
     <h1>Stock des produits bar</h1>
     <h3>Tous les produits.</h3>
     <input type="text" placeholder="select a type" id="searchInput">

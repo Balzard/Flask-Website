@@ -1,0 +1,18 @@
+{% extends "parent.html" %}
+
+{% block content %}
+  <div style="margin-top :100px;">
+    <h1>Ajouter du matériel</h1>
+    <form novalidate style="text-align: center;" action="/addMatos" method="POST">
+      {{form.csrf_token}}
+
+      {{form.type.label}}<br>
+      {{form.type}}<br>
+
+      {{form.quantite.label}}<br>
+      {{form.quantite}}<br><br>
+
+      {{form.submit (class="btn btn-primary")}}
+    </form>
+  </div>
+{% endblock%}

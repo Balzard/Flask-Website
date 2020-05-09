@@ -1,5 +1,34 @@
 {% extends "parent.html" %}
+{% import "macro_form.html" as macros %}
 
 {% block content %}
+  <div style="margin-top: 100px;">
+    <h1>Entrainements</h1>
 
+    <table width="100%" border="collapse" class="table" id="trainingTable">
+      <tr class="thead-light">
+        <th>Jour</th>
+        <th>Heure</th>
+        <th>Type</th>
+      </tr>
+      {% for training in trainings %}
+        {{macros.showTraining(training)}}
+      {% endfor %}
+    </table>
+    {% if current_user.is_authenticated and current_user.isAdmin()%}
+      <a href="#addTraining">Ajouter un entrainement</a>
+    {% endif%}
+
+    <h3>Tarif</h3>
+    <table border="collapse" class="table">
+      <tr class="thead-light">
+        <th>Enfant (-18 ans)</th>
+        <th>adulte (+18 ans)</th>
+      </tr>
+      <tr>
+        <td>65 euros l'an</td>
+        <td>85 euros l'an</td>
+      </tr>
+    </table>
+  </div>
 {% endblock %}

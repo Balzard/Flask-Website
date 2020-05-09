@@ -13,7 +13,8 @@
       // ajax pour ajouter une quantité au matos
       $.ajax({
         data : {
-          id : tmp
+          id : tmp,
+          case : "matos"
         },
         type : "POST",
         url : "/add",
@@ -32,12 +33,17 @@
       // ajax pour diminuer la quant d'un matos
       $.ajax({
         data : {
-          id : tmp
+          id : tmp,
+          case : "matos"
         },
         type : "POST",
         url : "/minus",
         success : function(data){
           var quant = JSON.parse(data)
+          // Attention si quantité <= 0
+          if(quant <= "0"){
+            alert("Ce produit n'est plus en stock. Supprimer le.")
+          }
           // changer la quantite affichée
           $("#quant"+tmp).empty()
           $("#quant"+tmp).append(quant)
@@ -63,11 +69,10 @@
         {{macros.showMat(mat, current_user)}}
       {% endfor %}
     </thead>
-
-    {% if current_user.is_authenticated and current_user.isAdmin() %}
-      <a href="#addMatos">Ajouter un matériel</a>
-    {% endif %}
   </table>
+  {% if current_user.is_authenticated and current_user.isAdmin() %}
+    <a href="/addMatos">Ajouter un matériel</a>
+  {% endif %}
 
 </div>
 

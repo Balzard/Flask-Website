@@ -20,15 +20,51 @@ class Equipe(db.Model):
 class Entrainement(db.Model):
     __tablename__ = "entrainement"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    horaire = db.Column(db.Date, nullable=False)
+    type = db.Column(db.Boolean, nullable=False)
+    jour = db.Column(db.String(20), nullable=False)
+    heure = db.Column(db.String(20), nullable=False)
+
+    def getId(self):
+        return self.id
+
+    def getType(self):
+        if self.type:
+            return "dirigé"
+        else:
+            return "libre"
+
+    def getDay(self):
+        return self.jour
+
+    def getHour(self):
+        return self.heure
 
 class Match(db.Model):
     __tablename__ = "match"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    heure = db.Column(db.Date, nullable=False)
+    heure = db.Column(db.String(10), nullable=False)
+    date = db.Column(db.Date, nullable=False)
     score = db.Column(db.String(10), nullable=False)
     rival = db.Column(db.String(20), nullable=False)
     equipe = db.Column(db.String, db.ForeignKey("equipe.nom"))
+
+    def getId(self):
+        return self.id
+
+    def getHour(self):
+        return self.heure
+
+    def getDate(self):
+        return str(self.date)
+
+    def getScore(self):
+        return self.score
+
+    def getRival(self):
+        return self.rival
+
+    def getTeam(self):
+        return self.equipe
 
 class Joueur(UserMixin ,db.Model):
     __tablename__ = "joueur"
@@ -109,6 +145,12 @@ class Produit(db.Model):
 
     def getQuant(self):
         return self.quantite
+
+    def addQuant(self):
+        self.quantite += 1
+
+    def minusQuant(self):
+        self.quantite -= 1
 
 class Commentaire(db.Model):
     __tablename__ = "commentaire"

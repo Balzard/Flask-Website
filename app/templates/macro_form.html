@@ -51,6 +51,8 @@
     <td>
       <a href="/deleteProd/id={{prod.getId()}}">Delete</a>
       <a href="/editProduct/id={{prod.getId()}}">Edit</a>
+      <a href="#+" class="add" id="add{{prod.getId()}}">+</a>
+      <a href="#-" class="minus" id="minus{{prod.getId()}}">-</a>
     </td>
   </tr>
 {% endmacro%}
@@ -68,3 +70,11 @@
     {% endif %}
   </tr>
 {% endmacro%}
+
+{% macro showTraining(training) %}
+  <tr>
+    <td>{{training.getDay()}}</td>
+    <td>{{training.getHour()}}</td>
+    <td>{{training.getType()}}</td>
+  </tr>
+{% endmacro %}
