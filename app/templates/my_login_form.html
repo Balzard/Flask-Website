@@ -6,7 +6,20 @@
 <body>
 <h1 style="text-align: center; margin-top: 100px;"> This is the Login page </h1>
 <h3 style="text-align: center; margin-bottom: 30px;">You must be connected to access some sections.</h3>
-
+{% with messages = get_flashed_messages( with_categories=true, category_filter=['info'] ) %}
+{% if messages %}
+<ul class='flashes' style="text-align: center;">
+{% for c, m in messages %}
+<p style="text-align: center;"> {{ c }} : {{ m }} </p>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% if form.errors %}
+{% for message in form.username.errors %}
+<div class="field_error">{{ message }}</div>
+{% endfor %}
+{% endif %}
 <!--valide le form que du coté serveur(novalidate)-->
 <form method="POST" action="/login" novalidate style="text-align: center; font-size: large;"> 
 

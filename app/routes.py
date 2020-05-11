@@ -10,6 +10,7 @@ import datetime
 
 from flask_login import login_required, login_user,logout_user, current_user
 
+
 #create admin account
 def create_players():
     user = Joueur(pseudo = "admin",prenom = "stephane", nom="leblanc",admin=True, naissance = datetime.date(1998,6,1), team=None)
@@ -71,6 +72,7 @@ def createMatch():
     db.session.add(match2)
     db.session.add(match3)
     db.session.commit()
+
 
 createTeam()
 create_players()
