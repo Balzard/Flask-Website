@@ -1,0 +1,23 @@
+{% extends "parent.html" %}
+
+{% block content%}
+  <div style="margin-top: 150px; text-align: center;">
+    <h1 style="text-align: center;">Add a training session</h1>
+
+      <form novalidate action="/addTraining" method="post" style="text-align: center;">
+      {{form.csrf_token}}
+
+      {{form.jour.label}}<br>
+      {{form.jour (class="form-control-lg")}}<br>
+
+      {{ form.heure.label }}<br>
+      {{ form.heure }}<br>
+
+      {{ form.type.label }}  <br>
+      {{ form.type (class="form-control-lg")}}    <br>
+
+      {{ form.submit (class = "btn btn-primary",style="margin-top:20px;")}}
+
+    </form>
+  </div>
+{% endblock%}
