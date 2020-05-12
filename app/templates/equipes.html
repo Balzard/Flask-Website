@@ -108,8 +108,9 @@
         </tr>
         {% endif %}
     </table>
-
-    <a href="#addTeam">Add a team</a>
+    {% if current_user.admin %}
+    <a href="/addTeam">Add a team</a><br>
+    {% endif %}
 
     <h3 id="teamName">Players</h3>
     <table class="table" id="playersTable" border="collapse">

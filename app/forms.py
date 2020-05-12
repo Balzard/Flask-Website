@@ -63,4 +63,14 @@ class MyMatchForm(FlaskForm):
     rival = StringField("Adversaire :", validators=[InputRequired(), Length(min=1, max=21)])
     submit = SubmitField("Confirmer")
 
+class MyTrainingForm(FlaskForm):
+    jour = SelectField("Jour :", choices=[("Lundi","Lundi"),("Mardi","Mardi"),("Mercredi","Mercredi"),("Jeudi","Jeudi"),("Vendredi","Vendredi"),("Samedi","Samedi"),("Dimanche","Dimanche")],validators=[InputRequired()])
+    heure = StringField("Heure :", validators=[InputRequired()])
+    type = SelectField("type :",choices=[("libre","libre"),("dirige","dirige")])
+    submit = SubmitField("Confirmer")
+
+class AddPlayerToTeamForm(FlaskForm):
+    player = SelectField("Choose player to add :", choices=[])
+    submit = SubmitField("Add")
+
 from app.models import Joueur

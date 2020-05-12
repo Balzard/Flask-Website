@@ -1,13 +1,13 @@
 {% extends "parent.html" %}
 
 {% block content %}
-  <div style="margin-top :100px;">
+  <div style="margin-top :150px; text-align: center;">
     <h1>Add team page</h1>
     <form novalidate style="text-align: center;" action="/addTeam" method="POST">
       {{form.csrf_token}}
 
       {{form.name.label}}<br>
-      {{form.name (value=team.getName())}}<br><br>
+      {{form.name }}<br><br>
 
       {{form.submit (class="btn btn-primary")}}
     </form>

@@ -14,6 +14,7 @@
   </tr>
 {% endmacro %}
 
+
 {% macro showTeam(team, current_user)%}
   <tr>
     <td>{{team.getName()}}</td>
@@ -22,6 +23,9 @@
       {% if current_user.isAdmin()%}
         <a href="/deleteTeam/nom={{team.getName()}}" class="deleteTeam" onclick="return confirm('delete {{team.getName()}} ?')">Delete</a>
         <a href="/editTeam/nom={{team.getName()}}">Edit</a>
+        <form method="post" action="/addPlayerToTeam/nom={{ team.getName() }}">
+            <input type="submit" value = "Add player">
+        </form>
       {% endif %}
     </td>
   </tr>
@@ -87,3 +91,6 @@
     <td>{{match.getScore()}}</td>
   </tr>
 {% endmacro %}
+
+
+

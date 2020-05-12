@@ -5,8 +5,10 @@ from flask import json
 from app.forms import*
 from app.models import*
 from werkzeug.urls import url_parse
+from sqlalchemy.exc import DatabaseError
 from flask_login import login_required, login_user, logout_user, current_user, LoginManager
 import datetime
+from sqlalchemy import exc
 
 from flask_login import login_required, login_user,logout_user, current_user
 
@@ -16,18 +18,20 @@ def create_players():
     user = Joueur(pseudo = "admin",prenom = "stephane", nom="leblanc",admin=True, naissance = datetime.date(1998,6,1), team=None)
     user.set_password("admin")
     equipe = Equipe.query.get("Equipe A")
-    user2 = Joueur(pseudo="joueur", prenom="Sylvério", nom="Pool",admin=False, naissance=datetime.date(1998,8,27),team=equipe)
+    user2 = Joueur(pseudo="joueur", prenom="Sylverio", nom="Pool",admin=False, naissance=datetime.date(1998,8,27),team=equipe)
     user2.set_password("joueur")
     user3 = Joueur(pseudo="membre", prenom="Sindy", nom="Willems",admin=False, naissance=datetime.date(1997,3,21),team=equipe)
     user3.set_password("membre")
-    db.session.add(user)
-    db.session.add(user2)
-    db.session.add(user3)
-    db.session.commit()
+
+    try:
+        db.session.add(user)
+        return db.session.commit()
+    except exc.IntegrityError:
+        db.session.rollback()
 
 def createTraining():
-    training = Entrainement(type=False, jour="Lundi", heure="18h")
-    training2 = Entrainement(type=True, jour="mercredi", heure="18h30")
+    training = Entrainement(type="libre", jour="Lundi", heure="18h")
+    training2 = Entrainement(type="dirige", jour="mercredi", heure="18h30")
     db.session.add(training)
     db.session.add(training2)
     db.session.commit()
@@ -81,6 +85,12 @@ createComm()
 createProduct()
 createTraining()
 createMatch()
+
+@app.teardown_request
+def teardown_request(exception):
+    if exception:
+        db.session.rollback()
+    db.session.remove()
 
 ####################
 # Public section   #
@@ -349,6 +359,43 @@ def editTeam(nom):
         return redirect(url_for("teams"))
     else:
         return render_template("editTeam.html", team=equipe, form=form)
+
+#add a training
+@app.route("/addTraining", methods=["GET","POST"])
+@login_required
+def addTraining():
+    form = MyTrainingForm()
+    if form.validate_on_submit():
+        jour = form.jour.data
+        heure = form.heure.data
+        type = form.type.data
+        entrainement = Entrainement(jour=jour,heure=heure,type=type)
+        db.session.add(entrainement)
+        db.session.commit()
+        return redirect(url_for("training"))
+    else :
+        return render_template("addTraining.html",form=form)
+
+
+@app.route("/addPlayerToTeam/nom=<nom>", methods=["GET","POST"])
+@login_required
+def addPlayerToTeam(nom):
+    team = Equipe.query.get(nom)
+    players = Joueur.query.all()
+    form = AddPlayerToTeamForm()
+    for player in players:
+        if player.equipe == None:
+            form.player.choices = [(player.pseudo, player.pseudo)]
+    if form.validate_on_submit():
+        joueur = form.player.data
+        jou = Joueur.query.filter_by(pseudo=joueur).first()
+        jou.equipe = nom
+        db.session.commit()
+        return redirect(url_for("teams"))
+    else:
+        return render_template("addPlayerToTeam.html",form=form, team=team)
+
+
 
 # Add a team
 @app.route("/addTeam", methods=["GET","POST"])

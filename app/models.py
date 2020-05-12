@@ -24,7 +24,7 @@ class Equipe(db.Model):
 class Entrainement(db.Model):
     __tablename__ = "entrainement"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    type = db.Column(db.Boolean, nullable=False)
+    type = db.Column(db.String(20), nullable=False)
     jour = db.Column(db.String(20), nullable=False)
     heure = db.Column(db.String(20), nullable=False)
 
@@ -32,10 +32,7 @@ class Entrainement(db.Model):
         return self.id
 
     def getType(self):
-        if self.type:
-            return "dirigé"
-        else:
-            return "libre"
+        return self.type
 
     def getDay(self):
         return self.jour
@@ -105,6 +102,9 @@ class Joueur(UserMixin ,db.Model):
 
     def isAdmin(self):
         return self.admin
+
+    def editEquipe(self, nom):
+        self.equipe = nom
 
 class Materiel(db.Model):
     __tablename__ = "materiel"
