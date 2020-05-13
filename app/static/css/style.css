@@ -25,7 +25,7 @@ div.content{
   padding-top: 150px;
 }
 
-a.greenBtn{
+a.greenBtn, a.status{
   display: block;
   text-align: center;
   text-decoration: none;
@@ -36,8 +36,58 @@ a.greenBtn{
   border-radius: 5px;
   padding-top: 5px;
 }
-a.greenBtn:hover{
+a.greenBtn:hover, a.status:hover{
   background-color: ForestGreen;
+  text-decoration: none;
+  color: white;
+}
+
+a.cancelBtn, a.deleteBtn{
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  background-color: DarkRed;
+  width: 150px;
+  height: 35px;
+  border-radius: 5px;
+  padding-top: 5px;
+}
+a.cancelBtn:hover, a.deleteBtn:hover{
+  background-color: FireBrick;
+  text-decoration: none;
+  color: white;
+}
+
+a.add, a.minus{
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  background-color: SlateGrey;
+  width: 50px;
+  height: 35px;
+  border-radius: 5px;
+  padding-top: 5px;
+}
+a.add:hover, a.minus:hover{
+  background-color: Grey;
+  text-decoration: none;
+  color: white;
+}
+
+button.teamView{
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  background-color: SlateGrey;
+  width: 150px;
+  height: 35px;
+  border-radius: 5px;
+}
+button.teamView:hover{
+  background-color: Grey;
   text-decoration: none;
   color: white;
 }

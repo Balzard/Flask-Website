@@ -19,7 +19,7 @@
       if(admin){
         var url = "/deleteFromTeam/id="+id;
         var confirmDel = "return confirm('Delete the player "+pseudo+" from his team ?')";
-        var del = '<a class="delete" href="'+url+'" onclick="'+confirmDel+'">Delete</a>';
+        var del = '<a class="deleteBtn" href="'+url+'" onclick="'+confirmDel+'">Delete</a>';
         tmp = '<td class="options">'+del+'</td>';
         $("#"+id).append(tmp);
       }
@@ -109,7 +109,7 @@
         {% endif %}
     </table>
     {% if current_user.admin %}
-    <a href="/addTeam">Add a team</a><br>
+    <a href="/addTeam" class="btn btn-primary">Add a team</a><br>
     {% endif %}
 
     <h3 id="teamName">Players</h3>

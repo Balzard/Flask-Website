@@ -187,8 +187,8 @@
       {% endfor %}
     </table>
     {% if current_user.is_authenticated and current_user.isAdmin()%}
-      <a href="/bar" class="btn btn-primary">Retour à la carte</a><br>
-      <a href="/addStock" class="greenBtn">Ajouter un produit</a>
+      <a href="/bar" class="greenBtn">Retour à la carte</a>
+      <a href="/addStock" class="btn btn-primary">Ajouter un produit</a>
     {% endif%}
   </div>
 {% endblock %}
