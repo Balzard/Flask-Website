@@ -44,7 +44,7 @@ class MyTeamForm(FlaskForm):
     submit = SubmitField("Edit")
 
 class MyProductForm(FlaskForm):
-    name = StringField("Nom :", validators=[InputRequired(), Length(min=5,max=21)])
+    name = StringField("Nom :", validators=[InputRequired(), Length(min=2,max=21)])
     quantite = StringField("Quantité :", validators=[InputRequired(), Length(min=1,max=3)])
     type = SelectField("Type :", choices=[("alcool","alcool"), ("nourriture","nourriture"), ("chips","chips"), ("softs","softs")])
     tarif = StringField("Tarif :", validators=[InputRequired(), Length(min=1,max=4)])

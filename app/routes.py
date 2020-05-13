@@ -13,6 +13,7 @@ from sqlalchemy import exc
 from flask_login import login_required, login_user,logout_user, current_user
 
 
+
 #create admin account
 def create_players():
     user = Joueur(pseudo = "admin",prenom = "stephane", nom="leblanc",admin=True, naissance = datetime.date(1998,6,1), team=None)
@@ -25,9 +26,10 @@ def create_players():
 
     try:
         db.session.add(user)
-        return db.session.commit()
+        db.session.flush()
     except exc.IntegrityError:
         db.session.rollback()
+
 
 def createTraining():
     training = Entrainement(type="libre", jour="Lundi", heure="18h")
@@ -86,11 +88,6 @@ createProduct()
 createTraining()
 createMatch()
 
-@app.teardown_request
-def teardown_request(exception):
-    if exception:
-        db.session.rollback()
-    db.session.remove()
 
 ####################
 # Public section   #
@@ -426,6 +423,13 @@ def editProduct(id):
     val = int(id)
     prod = Produit.query.get(val)
     form = MyProductForm()
+
+    #get data back
+    form.type.data = prod.getType()
+    form.name.data = prod.getName()
+    form.tarif.data = prod.getPrice()
+    form.quantite.data = prod.getQuant()
+
     if form.validate_on_submit():
         # Récupération des données
         new_name = form.name.data
@@ -452,9 +456,17 @@ def stock():
 @login_required
 def addStock():
     form = MyProductForm()
+    produit = Produit.query.all()
     if form.validate_on_submit():
         # Take data back
         name = form.name.data
+        for p in produit:
+            if name == p.nom:
+                flash("This product already exists","info")
+                return redirect(url_for("addStock"))
+        if len(name) < 3:
+            flash("Product name must be >= 3", "info")
+            return redirect(url_for("addStock"))
         quantite = form.quantite.data
         type = form.type.data
         tarif = form.tarif.data

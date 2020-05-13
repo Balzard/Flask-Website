@@ -130,7 +130,7 @@ class Materiel(db.Model):
 class Produit(db.Model):
     __tablename__  = "produit"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nom = db.Column(db.String(15), nullable=False, unique=True)
+    nom = db.Column(db.String(15), nullable=False)
     quantite = db.Column(db.Integer, nullable=False)
     type = db.Column(db.String(15), nullable=False)
     tarif = db.Column(db.Float, nullable=False)
@@ -155,6 +155,12 @@ class Produit(db.Model):
 
     def minusQuant(self):
         self.quantite -= 1
+
+    def editProd(self,name,qte,type,tarif):
+        self.nom = name
+        self.quantite = qte
+        self.type = type
+        self.tarif = tarif
 
 class Commentaire(db.Model):
     __tablename__ = "commentaire"

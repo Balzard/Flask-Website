@@ -1,22 +1,22 @@
 {% extends "parent.html"%}
 
 {% block content%}
-  <div style="margin-top :70px;">
+  <div style="margin-top :150px; text-align: center;">
     <h1>Edit a product for the bar</h1>
-    <form novalidate style="text-align: center;" action="/editStock" method="POST">
+    <form novalidate style="text-align: center;" action="/editProduct/id={{ prod.getId() }}" method="POST">
       {{form.csrf_token}}
 
       {{form.name.label}}<br>
-      {{form.name (value=prod.nom)}}<br>
+      {{form.name}}<br>
 
       {{form.quantite.label}}<br>
-      {{form.quantite (value=prod.quantite)}}<br>
+      {{form.quantite}}<br>
 
       {{form.type.label}}<br>
-      {{form.type (class="form-control-lg", value=prod.type)}}<br>
+      {{form.type (class="form-control-lg")}}<br>
 
       {{form.tarif.label}}<br>
-      {{form.tarif (value=prod.tarif)}}<br><br>
+      {{form.tarif}}<br><br>
 
       {{form.submit (class="btn btn-primary")}}
     </form>
