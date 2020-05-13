@@ -104,7 +104,6 @@ def home():
 # Contact page
 @app.route("/contact")
 def contact():
-    #return render_template("contact.html")
     return render_template("contacts.html")
 
 # Training page + tarif
@@ -383,12 +382,21 @@ def addPlayerToTeam(nom):
     team = Equipe.query.get(nom)
     players = Joueur.query.all()
     form = AddPlayerToTeamForm()
+    # Liste des joueurs n'ayant pas encore d'équipe
+    list = []
     for player in players:
         if player.equipe == None:
-            form.player.choices = [(player.pseudo, player.pseudo)]
+            tmp = (player.getId(), player.getUsername())
+            list.append(tmp)
+    # Si la liste est pas vide
+    if len(list) != 0:
+        form.player.choices = list
+    else:
+        flash("Tous les joueurs ont déjà une équipe.", "info")
+        return redirect(url_for("teams"))
     if form.validate_on_submit():
         joueur = form.player.data
-        jou = Joueur.query.filter_by(pseudo=joueur).first()
+        jou = Joueur.query.get(joueur)
         jou.equipe = nom
         db.session.commit()
         return redirect(url_for("teams"))

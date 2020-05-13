@@ -70,7 +70,7 @@ class MyTrainingForm(FlaskForm):
     submit = SubmitField("Confirmer")
 
 class AddPlayerToTeamForm(FlaskForm):
-    player = SelectField("Choose player to add :", choices=[])
+    player = SelectField("Choose player to add :", coerce=int)
     submit = SubmitField("Add")
 
 from app.models import Joueur
