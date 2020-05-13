@@ -8,8 +8,6 @@ class Equipe(db.Model):
     __tablename__ = "equipe"
     id = db.Column(db.Integer, unique=True, autoincrement=True)
     nom = db.Column(db.String, primary_key=True, nullable=False)
-    #j'ai mis en commentaire car j'avais une erreure à cause de cette ligne (Stephane)
-    # normalement j'ai résolu le problème
     players = db.relationship("Joueur", backref="team", lazy="dynamic")
 
     def editName(self,new_name):
@@ -105,6 +103,9 @@ class Joueur(UserMixin ,db.Model):
 
     def editEquipe(self, nom):
         self.equipe = nom
+
+    def editStatus(self):
+        self.admin = not self.admin
 
 class Materiel(db.Model):
     __tablename__ = "materiel"

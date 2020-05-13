@@ -26,7 +26,6 @@ def create_players():
     db.session.add(user)
     db.session.commit()
 
-
 def createTraining():
     training = Entrainement(type="libre", jour="Lundi", heure="18h")
     training2 = Entrainement(type="dirige", jour="mercredi", heure="18h30")
@@ -74,7 +73,6 @@ def createMatch():
     db.session.add(match2)
     db.session.add(match3)
     db.session.commit()
-
 
 createTeam()
 create_players()
@@ -222,7 +220,6 @@ def matchs():
 # Admin section  #
 ##################
 
-
 # Supprimer un joueur d'une équipe
 @app.route("/deleteFromTeam/id=<id>")
 @login_required
@@ -305,6 +302,7 @@ def deleteProd(id):
     if prod:
         db.session.delete(prod)
         db.session.commit()
+        return redirect(url_for("stock"))
     else:
         msg = "Le produit recherché est introuvable."
         return render_template("404.html", msg=msg), 400
@@ -671,3 +669,21 @@ def minus():
     db.session.commit()
     # return la nouvelle quantite
     return json.dumps(item.getQuant())
+
+@app.route("/changeStatus", methods=["POST"])
+@login_required
+def changeStatus():
+    # Récupérer l'id
+    id = request.form["id"]
+    id = int(id)
+    # Si le joueur est le current_user
+    if id == current_user.getId():
+        return json.dumps(2)
+    else:
+        player = Joueur.query.get(id)
+        player.editStatus()
+        db.session.commit()
+        if player.isAdmin():
+            return json.dumps(1)
+        else:
+            return json.dumps(0)

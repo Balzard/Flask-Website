@@ -19,9 +19,25 @@
       $("#prod"+id).append(tmp)
       tmp = "<td>"+type+"</td>"
       $("#prod"+id).append(tmp)
-      tmp = "<td>"+quantite+"</td>"
+      var id_quant = "quant"+id
+      tmp = "<td id="+id_quant+">"+quantite+"</td>"
       $("#prod"+id).append(tmp)
-      $("#prod"+id).append("<td><button>Supprimer</button></td>")
+      // option delete
+      var url = "/deleteProd/id="+id
+      var tempo_del = "<a href="+url+">Delete</a>"
+      // option edit
+      url = "/editProduct/id="+id
+      var tempo_edit = "<a href="+url+">Edit</a>"
+      // add option
+      var id_add = "add"+id
+      tempo_add = "<a href='#+' class='add' id="+id_add+">+</a>"
+      // minus option
+      var id_minus = "minus"+id
+      tempo_minus = "<a href='#-' class='minus' id="+id_minus+">-</a>"
+      // ajout de la cellule complete
+      // Cell for options
+      tmp = "<td>"+tempo_del+" "+tempo_edit+" "+tempo_add+" "+tempo_minus+"</td>"
+      $("#prod"+id).append(tmp)
     }
     // main fonction
     $(document).ready(function(){
@@ -110,7 +126,7 @@
         })
       })
       // function to add a quantity of a product
-      $(".add").click(function(){
+      $("#stockTable").on("click", ".add", function(){
         var tmp = $(this).attr("id").replace("add", "")
         // ajax to add a quantite and return the total
         $.ajax({
@@ -128,7 +144,7 @@
         })
       })
       // function to minus a quantity of a product
-      $(".minus").click(function(){
+      $("#stockTable").on("click", ".minus", function(){
         var tmp = $(this).attr("id").replace("minus", "")
         // ajax
         $.ajax({
@@ -141,7 +157,7 @@
           success : function(data){
             var res = JSON.parse(data)
             // Attention si quantité <= 0
-            if(quant <= "0"){
+            if(res <= "0"){
               alert("Ce produit n'est plus en stock. Supprimer le.")
             }
             $("#quant"+tmp).empty()

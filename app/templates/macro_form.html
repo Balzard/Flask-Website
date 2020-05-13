@@ -1,7 +1,7 @@
 {% macro showPlayer(player, current_user) %}
   <tr>
     <td>{{ player.pseudo }}</td>
-    <td>
+    <td id="status{{player.getId()}}">
       {% if player.isAdmin()%}
         ADMIN
       {% else %}
@@ -9,7 +9,10 @@
       {% endif %}
     </td>
     {% if current_user.isAdmin() %}
-      <td> <a class="delete" href="/deletePlayer/id={{player.getId()}}" onclick="return confirm('delete {{player.getUsername()}} ?')">Delete</a></td>
+      <td>
+        <a class="delete" href="/deletePlayer/id={{player.getId()}}" onclick="return confirm('delete {{player.getUsername()}} ?')">Delete</a>
+        <a href="#status" class="status" id="status{{player.getId()}}" onclick="return confirm('change {{player.getUsername()}} status ?')">Change Status</a>
+      </td>
     {% endif %}
   </tr>
 {% endmacro %}
@@ -48,10 +51,10 @@
 {% endmacro%}
 
 {% macro showStock(prod)%}
-  <tr>
+  <tr id="prod{{prod.getId()}}">
     <td>{{prod.getName()}}</td>
     <td>{{prod.getType()}}</td>
-    <td>{{prod.getQuant()}}</td>
+    <td id="quant{{prod.getId()}}">{{prod.getQuant()}}</td>
     <td>
       <a href="/deleteProd/id={{prod.getId()}}">Delete</a>
       <a href="/editProduct/id={{prod.getId()}}">Edit</a>
@@ -91,6 +94,3 @@
     <td>{{match.getScore()}}</td>
   </tr>
 {% endmacro %}
-
-
-
