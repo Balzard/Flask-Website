@@ -172,8 +172,8 @@
     <h1>Stock des produits bar</h1>
     <h3>Tous les produits.</h3>
     <input type="text" placeholder="select a type" id="searchInput">
-  	<button type="button" id="search"> search</button>
-  	<button type="button" id="all">all</button><br><br>
+  	<button type="button" id="search" class="btn btn-secondary"> search</button>
+  	<button type="button" id="all" class="btn btn-secondary">all</button><br><br>
 
     <table width="100%" border="collapse" class="table" id="stockTable">
       <tr class="thead-light">
@@ -187,8 +187,8 @@
       {% endfor %}
     </table>
     {% if current_user.is_authenticated and current_user.isAdmin()%}
-      <a href="/bar">Retour à la carte</a><br>
-      <a href="/addStock">Ajouter un produit</a>
+      <a href="/bar" class="btn btn-primary">Retour à la carte</a><br>
+      <a href="/addStock" class="greenBtn">Ajouter un produit</a>
     {% endif%}
   </div>
 {% endblock %}
