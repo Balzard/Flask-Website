@@ -367,7 +367,6 @@ def addTraining():
     else :
         return render_template("addTraining.html",form=form)
 
-
 @app.route("/addPlayerToTeam/nom=<nom>", methods=["GET","POST"])
 @login_required
 def addPlayerToTeam(nom):
@@ -395,8 +394,6 @@ def addPlayerToTeam(nom):
     else:
         return render_template("addPlayerToTeam.html",form=form, team=team)
 
-
-
 # Add a team
 @app.route("/addTeam", methods=["GET","POST"])
 @login_required
@@ -418,13 +415,6 @@ def editProduct(id):
     val = int(id)
     prod = Produit.query.get(val)
     form = MyProductForm()
-
-    #get data back
-    form.type.data = prod.getType()
-    form.name.data = prod.getName()
-    form.tarif.data = prod.getPrice()
-    form.quantite.data = prod.getQuant()
-
     if form.validate_on_submit():
         # Récupération des données
         new_name = form.name.data
@@ -434,7 +424,7 @@ def editProduct(id):
         # Modification
         prod.editProd(new_name, new_quantite, new_type, new_tarif)
         db.session.commit()
-        return redirect(url_for("products"))
+        return redirect(url_for("stock"))
     else:
         return render_template("editProduct.html",form=form,prod=prod)
 
@@ -467,13 +457,11 @@ def addStock():
         except:
             flash("La quantité doit être un entier", "info")
             return redirect(url_for("addStock"))
-
         try:
             tarif = float(form.tarif.data)
         except:
             flash("Le tarif doit être un entier", "info")
             return redirect(url_for("addStock"))
-
         type = form.type.data
         # create a new product
         prod = Produit(nom=name, quantite=quantite, type=type, tarif=tarif)

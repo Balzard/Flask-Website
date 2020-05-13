@@ -6,19 +6,40 @@
     <form novalidate style="text-align: center;" action="/editProduct/id={{ prod.getId() }}" method="POST">
       {{form.csrf_token}}
 
+      <ul class="field_error">
+         {% for message in form.name.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.name.label}}<br>
-      {{form.name}}<br>
+      {{form.name(value=prod.getName())}}<br>
 
+      <ul class="field_error">
+         {% for message in form.quantite.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.quantite.label}}<br>
-      {{form.quantite}}<br>
+      {{form.quantite(value=prod.getQuant())}}<br>
 
+      <ul class="field_error">
+         {% for message in form.type.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.type.label}}<br>
-      {{form.type (class="form-control-lg")}}<br>
+      {{form.type (class="form-control-lg", value=prod.getType())}}<br>
 
+      <ul class="field_error">
+         {% for message in form.tarif.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.tarif.label}}<br>
-      {{form.tarif}}<br><br>
+      {{form.tarif(value=prod.getPrice())}}<br><br>
 
       {{form.submit (class="btn btn-primary")}}
     </form>
+    <a href="/stock">Cancel</a>
   </div>
 {% endblock%}

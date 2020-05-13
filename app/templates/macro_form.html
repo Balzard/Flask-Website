@@ -56,7 +56,7 @@
     <td>{{prod.getType()}}</td>
     <td id="quant{{prod.getId()}}">{{prod.getQuant()}}</td>
     <td>
-      <a href="/deleteProd/id={{prod.getId()}}">Delete</a>
+      <a href="/deleteProd/id={{prod.getId()}}" onclick="return confirm('delete the product {{prod.getName()}} ?')">Delete</a>
       <a href="/editProduct/id={{prod.getId()}}">Edit</a>
       <a href="#+" class="add" id="add{{prod.getId()}}">+</a>
       <a href="#-" class="minus" id="minus{{prod.getId()}}">-</a>
