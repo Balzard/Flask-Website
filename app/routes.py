@@ -23,12 +23,8 @@ def create_players():
     user2.set_password("joueur")
     user3 = Joueur(pseudo="membre", prenom="Sindy", nom="Willems",admin=False, naissance=datetime.date(1997,3,21),team=equipe)
     user3.set_password("membre")
-
-    try:
-        db.session.add(user)
-        db.session.flush()
-    except exc.IntegrityError:
-        db.session.rollback()
+    db.session.add(user)
+    db.session.commit()
 
 
 def createTraining():
@@ -329,6 +325,7 @@ def editPlayer(id):
         # Traitement du nouveau mdp
         old_mdp = form.old_password.data
         new_mdp = form.new_password_2.data
+
         if old_mdp:
             # Verification du mdp
             if not player.check_password(old_mdp):
@@ -467,9 +464,19 @@ def addStock():
         if len(name) < 3:
             flash("Product name must be >= 3", "info")
             return redirect(url_for("addStock"))
-        quantite = form.quantite.data
+        try:
+            quantite = int(form.quantite.data)
+        except:
+            flash("La quantité doit être un entier", "info")
+            return redirect(url_for("addStock"))
+
+        try:
+            tarif = float(form.tarif.data)
+        except:
+            flash("Le tarif doit être un entier", "info")
+            return redirect(url_for("addStock"))
+
         type = form.type.data
-        tarif = form.tarif.data
         # create a new product
         prod = Produit(nom=name, quantite=quantite, type=type, tarif=tarif)
         db.session.add(prod)
@@ -485,7 +492,13 @@ def addMatos():
     form = MyMatosForm()
     if form.validate_on_submit():
         type = form.type.data
-        quantite = int(form.quantite.data)
+        try:
+            quantite = int(form.quantite.data)
+        except:
+            flash("La quantité doit être un entier","info")
+            return redirect(url_for("addMatos"))
+
+
         matos = Materiel(type=type, quantite=quantite)
         db.session.add(matos)
         db.session.commit()

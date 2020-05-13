@@ -25,13 +25,23 @@
   </script>
 
   <h1>Modify a player</h1>
-  <div style="margin-top: 150px;">
+  <div style="margin-top: 150px;text-align: center;">
+  <h1>Modify a player</h1>
+   {% with messages = get_flashed_messages(with_categories=true, category_filter="info")%}
+    {% if messages %}
+      <ul class="flashes">
+        {% for c, m in messages %}
+          <p class="flash_message" style="color: Red;">{{c}} : {{m}}</p>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
     <form novalidate action="/editPlayer/id={{player.getId()}}" method="POST" style="text-align: center;">
       {{ form.csrf_token }}
 
       <ul class="field_error">
          {% for message in form.username.errors %}
-           <li>{{message}}</li>
+           <p>{{message}}</p>
          {% endfor %}
        </ul>
       {{ form.username.label }}<br>
@@ -39,7 +49,7 @@
 
       <ul class="field_error">
          {% for message in form.old_password.errors %}
-           <li>{{message}}</li>
+           <p>{{message}}</p>
          {% endfor %}
        </ul>
       {{ form.old_password.label}}<br>
@@ -47,7 +57,7 @@
 
       <ul class="field_error">
          {% for message in form.new_password_1.errors %}
-           <li>{{message}}</li>
+           <p>{{message}}</p>
          {% endfor %}
        </ul>
       {{ form.new_password_1.label}}<br>

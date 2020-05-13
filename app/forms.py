@@ -27,9 +27,9 @@ class MyCommentForm(FlaskForm):
 
 class EditPlayerForm(FlaskForm):
     username = StringField("New username :", validators=[InputRequired(), Length(min=3,max=80)])
-    old_password = PasswordField("Old password :", validators=[Length(max=16)])
-    new_password_1 = PasswordField("New password  :", validators=[Length(max=16)])
-    new_password_2 = PasswordField("Confirm new password  :", validators=[EqualTo("new_password_1")])
+    old_password = PasswordField("Old password :", validators=[InputRequired(), Length(max=16)])
+    new_password_1 = PasswordField("New password  :", validators=[InputRequired(), Length(max=16)])
+    new_password_2 = PasswordField("Confirm new password  :", validators=[InputRequired(), EqualTo("new_password_1")])
     submit = SubmitField("Edit Player")
     def validate_username(self, username):
         user = Joueur.query.filter_by(pseudo=username.data)
@@ -57,8 +57,8 @@ class MyMatosForm(FlaskForm):
 
 class MyMatchForm(FlaskForm):
     date = DateField("Date :", validators=[InputRequired()])
-    heure = StringField("Heure :", validators=[InputRequired(), Length(min=2, max=3)])
-    score = StringField("Score :", validators=[InputRequired(), Length(min=3, max=4)])
+    heure = StringField("Heure :", validators=[InputRequired(), Length( max=3)])
+    score = StringField("Score :", validators=[InputRequired(), Length( max=4)])
     equipe = SelectField("Equipe :", coerce=str)
     rival = StringField("Adversaire :", validators=[InputRequired(), Length(min=1, max=21)])
     submit = SubmitField("Confirmer")

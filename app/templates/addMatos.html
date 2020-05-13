@@ -3,6 +3,16 @@
 {% block content %}
   <div style="margin-top :150px; text-align: center;">
     <h1>Ajouter du matériel</h1>
+
+      {% with messages = get_flashed_messages(with_categories=true, category_filter="info")%}
+    {% if messages %}
+      <ul class="flashes">
+        {% for c, m in messages %}
+          <p class="flash_message" style="color: Red;">{{c}} : {{m}}</p>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
     <form novalidate style="text-align: center;" action="/addMatos" method="POST">
       {{form.csrf_token}}
 

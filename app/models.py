@@ -43,10 +43,10 @@ class Entrainement(db.Model):
 class Match(db.Model):
     __tablename__ = "match"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    heure = db.Column(db.String(10), nullable=False)
+    heure = db.Column(db.String, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    score = db.Column(db.String(10), nullable=False)
-    rival = db.Column(db.String(20), nullable=False)
+    score = db.Column(db.String, nullable=False)
+    rival = db.Column(db.String, nullable=False)
     equipe = db.Column(db.String, db.ForeignKey("equipe.nom"))
 
     def getId(self):
