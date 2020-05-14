@@ -24,16 +24,16 @@
       $("#prod"+id).append(tmp)
       // option delete
       var url = "/deleteProd/id="+id
-      var tempo_del = "<a href="+url+">Delete</a>"
+      var tempo_del = "<a class='btn btn-danger' href="+url+">Delete</a>"
       // option edit
       url = "/editProduct/id="+id
-      var tempo_edit = "<a href="+url+">Edit</a>"
+      var tempo_edit = "<a class='btn btn-primary' href="+url+">Edit</a>"
       // add option
       var id_add = "add"+id
-      tempo_add = "<a href='#+' class='add' id="+id_add+">+</a>"
+      tempo_add = "<a href='#+' class='add btn btn-secondary' id="+id_add+">+</a>"
       // minus option
       var id_minus = "minus"+id
-      tempo_minus = "<a href='#-' class='minus' id="+id_minus+">-</a>"
+      tempo_minus = "<a href='#-' class='minus btn btn-secondary' id="+id_minus+">-</a>"
       // ajout de la cellule complete
       // Cell for options
       tmp = "<td>"+tempo_del+" "+tempo_edit+" "+tempo_add+" "+tempo_minus+"</td>"
@@ -182,12 +182,14 @@
         <th>Quantité</th>
         <th>Options</th>
       </tr>
+
       {% for prod in products %}
         {{macros.showStock(prod)}}
       {% endfor %}
+
     </table>
     {% if current_user.is_authenticated and current_user.isAdmin()%}
-      <a href="/bar" class="greenBtn">Retour à la carte</a>
+      <a href="/bar" class="greenBtn btn btn-success">Retour à la carte</a>
       <a href="/addStock" class="btn btn-primary">Ajouter un produit</a>
     {% endif%}
   </div>

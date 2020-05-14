@@ -16,7 +16,7 @@
       {% endfor %}
     </table>
     {% if current_user.is_authenticated and current_user.isAdmin()%}
-      <a href="/addTraining" class="btn btn-primary">Ajouter un entrainement</a>
+      <a href="/addTraining" class="btn btn-primary" style="margin-bottom: 20px;">Ajouter un entrainement</a>
     {% endif%}
 
     <h3>Tarif</h3>
