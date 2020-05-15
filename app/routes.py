@@ -24,8 +24,11 @@ def create_players():
     user3 = Joueur(pseudo="membre", prenom="Sindy", nom="Willems",admin=False, naissance=datetime.date(1997,3,21),team=equipe)
     user3.set_password("membre")
     db.session.add(user)
+    db.session.add(user3)
+    db.session.add(user2)
     db.session.commit()
 
+#create trainings
 def createTraining():
     training = Entrainement(type="libre", jour="Lundi", heure="18h")
     training2 = Entrainement(type="dirige", jour="mercredi", heure="18h30")
@@ -33,6 +36,7 @@ def createTraining():
     db.session.add(training2)
     db.session.commit()
 
+#create materiel
 def createMatos():
     matos = Materiel(quantite=5, type="filet")
     matos2 = Materiel(quantite=4, type="table")
@@ -40,6 +44,7 @@ def createMatos():
     db.session.add(matos2)
     db.session.commit()
 
+#create teams
 def createTeam():
     team = Equipe(nom="Equipe A")
     team2 = Equipe(nom="Equipe B")
@@ -47,6 +52,7 @@ def createTeam():
     db.session.add(team2)
     db.session.commit()
 
+#create comments
 def createComm():
     comm = Commentaire(texte="Comm1", auteur="anonyme", date=datetime.date.today())
     comm2 = Commentaire(texte="Comm2", auteur="anonyme", date=datetime.date.today())
@@ -56,6 +62,7 @@ def createComm():
     db.session.add(comm3)
     db.session.commit()
 
+#create products
 def createProduct():
     prod = Produit(nom="coca", quantite=25, type="soft", tarif=1.2)
     prod1 = Produit(nom="Paprika", quantite=10, type="chips", tarif=1.0)
@@ -65,6 +72,7 @@ def createProduct():
     db.session.add(prod2)
     db.session.commit()
 
+#create matchs
 def createMatch():
     match = Match(heure="15h", date=datetime.date(2019,10,5), score="12-4", rival="Saint-Marc A", equipe="Equipe A",)
     match2 = Match(heure="19h", date=datetime.date(2019,10,5), score="9-7", rival="Jambes D", equipe="Equipe B",)
@@ -87,19 +95,16 @@ createMatch()
 # Public section   #
 ####################
 
+#mène vers cette page si un mauvais url est entré
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
 
-#Home page
+#page d'accueil
 @app.route("/")
 def home():
     return render_template("home.html")
 
-# Contact page
-@app.route("/contact")
-def contact():
-    return render_template("contacts.html")
 
 # Training page + tarif
 @app.route("/training")
@@ -169,7 +174,7 @@ def login():
     else:
         return render_template("my_login_form.html", form=form)
 
-# Ecrire un commentaire
+# Ecrire un commentaire dans le carnet d'or
 @app.route("/comment", methods=["GET","POST"])
 def comment():
     # Name
@@ -193,20 +198,21 @@ def comment():
 # Player section   #
 ####################
 
+#Pour se déconnecter
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("home"))
 
-# liste de force
+# mène vers la page listant les joueurs du club
 @app.route("/players")
 @login_required
 def players():
     players = Joueur.query.all()
     return render_template("joueurs.html", players=players)
 
-# Page des équipes
+# Page des équipes du club
 @app.route("/teams")
 @login_required
 def teams():
@@ -311,7 +317,7 @@ def deleteProd(id):
         msg = "Le produit recherché est introuvable."
         return render_template("404.html", msg=msg), 400
 
-# Modifier un joueur -> le bouton ne sera dispo que pour l'admin ou le joueur conerné (Jinja2)
+# Modifier un joueur -> le bouton ne sera dispo que pour l'admin ou le joueur concerné (Jinja2)
 # Faire un JS demandant que la section old password soit remplie pour remplir new password
 @app.route("/editPlayer/id=<id>", methods=["GET","POST"])
 @login_required
@@ -341,7 +347,7 @@ def editPlayer(id):
     else:
         return render_template("editPlayer.html", player=player, form=form)
 
-# Edit team
+# Modifier le nom d'une équipe
 @app.route("/editTeam/nom=<nom>", methods=["GET","POST"])
 @login_required
 def editTeam(nom):
@@ -355,7 +361,7 @@ def editTeam(nom):
     else:
         return render_template("editTeam.html", team=equipe, form=form)
 
-#add a training
+#Ajouter un nouvel entrainement
 @app.route("/addTraining", methods=["GET","POST"])
 @login_required
 def addTraining():
@@ -371,6 +377,7 @@ def addTraining():
     else :
         return render_template("addTraining.html",form=form)
 
+#Ajouter un nouveau joueur à l'équipe sélectionnée
 @app.route("/addPlayerToTeam/nom=<nom>", methods=["GET","POST"])
 @login_required
 def addPlayerToTeam(nom):
@@ -398,7 +405,7 @@ def addPlayerToTeam(nom):
     else:
         return render_template("addPlayerToTeam.html",form=form, team=team)
 
-# Add a team
+# Créer une nouvelle équipe
 @app.route("/addTeam", methods=["GET","POST"])
 @login_required
 def addTeam():
@@ -412,7 +419,7 @@ def addTeam():
     else:
         return render_template("addTeam.html", form=form)
 
-# Edit a product
+# Modifier les valeurs d'un produit
 @app.route("/editProduct/id=<id>", methods=["GET","POST"])
 @login_required
 def editProduct(id):
@@ -440,7 +447,7 @@ def stock():
     products = Produit.query.all()
     return render_template("stock.html", products=products)
 
-# Ajouter un produit dans les stocks
+# Ajouter un nouveau produit dans les stocks
 @app.route("/addStock", methods=["GET","POST"])
 @login_required
 def addStock():
@@ -475,7 +482,7 @@ def addStock():
     else:
         return render_template("addStock.html", form=form)
 
-# Ajouter un matos
+# Ajouter un nouveau materiel
 @app.route("/addMatos", methods=["GET","POST"])
 @login_required
 def addMatos():
@@ -496,6 +503,7 @@ def addMatos():
     else:
         return render_template("addMatos.html", form=form)
 
+#Ajouter un nouveau match
 @app.route("/addMatch", methods=["GET", "POST"])
 @login_required
 def addMatch():
