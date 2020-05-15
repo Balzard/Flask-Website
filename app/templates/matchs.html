@@ -17,7 +17,7 @@
       {% endfor %}
     </table>
     {% if current_user.is_authenticated and current_user.isAdmin() %}
-      <a href="/addMatch">Add a result</a>
+      <a href="/addMatch" class="btn btn-primary">Add a result</a>
     {% endif %}
   </div>
 {% endblock %}

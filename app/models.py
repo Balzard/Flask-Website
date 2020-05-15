@@ -157,7 +157,7 @@ class Produit(db.Model):
     def minusQuant(self):
         self.quantite -= 1
 
-    def editProd(self,name,qte,type,tarif):
+    def editProd(self, name, qte, type, tarif):
         self.nom = name
         self.quantite = qte
         self.type = type

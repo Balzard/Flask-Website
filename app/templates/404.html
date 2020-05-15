@@ -1,13 +1,16 @@
-<html>
- <head><title>404 Error</title></head>
- <body>
- <h1>Page Not Found</h1>
- <p>
-   {% if msg %}
-    {{msg}}
-   {% else %}
-    Pas de message d'erreur.
-   {% endif %}
- </p>
-</body>
-</html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="page-wrap d-flex flex-row align-items-center" style="margin-top: 150px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <span class="display-1 d-block">404</span>
+                <div class="mb-4 lead">The page you are looking for was not found.</div>
+                <a href="/" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>

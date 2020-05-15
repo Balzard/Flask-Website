@@ -10,8 +10,8 @@
     </td>
     {% if current_user.isAdmin() %}
       <td>
-        <a class="delete" href="/deletePlayer/id={{player.getId()}}" onclick="return confirm('delete {{player.getUsername()}} ?')">Delete</a>
-        <a href="#status" class="status" id="status{{player.getId()}}" onclick="return confirm('change {{player.getUsername()}} status ?')">Change Status</a>
+        <a class="deleteBtn btn btn-danger" href="/deletePlayer/id={{player.getId()}}" onclick="return confirm('delete {{player.getUsername()}} ?')">Delete</a>
+        <a href="#status" class="status btn btn-success" id="status{{player.getId()}}" onclick="return confirm('change {{player.getUsername()}} status ?')">Change Status</a>
       </td>
     {% endif %}
   </tr>
@@ -22,13 +22,12 @@
   <tr>
     <td>{{team.getName()}}</td>
     <td>
-      <button type="button" class="teamView" id="{{team.getName()}}">View players</button>
+      <button type="button" class="teamView btn btn-success" id="{{team.getName()}}">View players</button>
       {% if current_user.isAdmin()%}
-        <a href="/deleteTeam/nom={{team.getName()}}" class="deleteTeam" onclick="return confirm('delete {{team.getName()}} ?')">Delete</a>
-        <a href="/editTeam/nom={{team.getName()}}">Edit</a>
-        <form method="post" action="/addPlayerToTeam/nom={{ team.getName() }}">
-            <input type="submit" value = "Add player">
-        </form>
+        <a href="/deleteTeam/nom={{team.getName()}}" class="deleteBtn btn btn-danger" onclick="return confirm('delete {{team.getName()}} ?')">Delete</a>
+        <a href="/editTeam/nom={{team.getName()}}" class="btn btn-primary">Edit</a>
+          <a class="btn btn-info" href="addPlayerToTeam/nom={{ team.getName() }}">Add player</a>
+
       {% endif %}
     </td>
   </tr>
@@ -56,10 +55,10 @@
     <td>{{prod.getType()}}</td>
     <td id="quant{{prod.getId()}}">{{prod.getQuant()}}</td>
     <td>
-      <a href="/deleteProd/id={{prod.getId()}}">Delete</a>
-      <a href="/editProduct/id={{prod.getId()}}">Edit</a>
-      <a href="#+" class="add" id="add{{prod.getId()}}">+</a>
-      <a href="#-" class="minus" id="minus{{prod.getId()}}">-</a>
+      <a href="/deleteProd/id={{prod.getId()}}" onclick="return confirm('delete the product {{prod.getName()}} ?')" class="btn btn-danger">Delete</a>
+      <a href="/editProduct/id={{prod.getId()}}" class="btn btn-primary">Edit</a>
+      <a href="#+" class="add btn btn-secondary" id="add{{prod.getId()}}">+</a>
+      <a href="#-" class="minus btn btn-secondary" id="minus{{prod.getId()}}">-</a>
     </td>
   </tr>
 {% endmacro%}
@@ -70,9 +69,9 @@
     <td id="quant{{mat.getId()}}">{{mat.getQuant()}}</td>
     {% if current_user.is_authenticated and current_user.isAdmin() %}
       <td>
-        <a href="/deleteMatos/id={{mat.getId()}}" onclick="return confirm('delete {{mat.getType()}} ?')">Delete</a>
-        <a href="#+" class="add" id="add{{mat.getId()}}">+</a>
-        <a href="#-" class="minus" id="minus{{mat.getId()}}">-</a>
+        <a class="deleteBtn btn btn-danger" href="/deleteMatos/id={{mat.getId()}}" onclick="return confirm('delete {{mat.getType()}} ?')">Delete</a>
+        <a href="#+" class="add btn btn-secondary" id="add{{mat.getId()}}">+</a>
+        <a href="#-" class="minus btn btn-secondary" id="minus{{mat.getId()}}">-</a>
       </td>
     {% endif %}
   </tr>

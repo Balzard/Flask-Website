@@ -27,9 +27,9 @@ class MyCommentForm(FlaskForm):
 
 class EditPlayerForm(FlaskForm):
     username = StringField("New username :", validators=[InputRequired(), Length(min=3,max=80)])
-    old_password = PasswordField("Old password :", validators=[InputRequired(), Length(max=16)])
-    new_password_1 = PasswordField("New password  :", validators=[InputRequired(), Length(max=16)])
-    new_password_2 = PasswordField("Confirm new password  :", validators=[InputRequired(), EqualTo("new_password_1")])
+    old_password = PasswordField("Old password :", validators=[Length(max=16)])
+    new_password_1 = PasswordField("New password  :", validators=[Length(max=16)])
+    new_password_2 = PasswordField("Confirm new password  :", validators=[EqualTo("new_password_1")])
     submit = SubmitField("Edit Player")
     def validate_username(self, username):
         user = Joueur.query.filter_by(pseudo=username.data)
@@ -46,7 +46,7 @@ class MyTeamForm(FlaskForm):
 class MyProductForm(FlaskForm):
     name = StringField("Nom :", validators=[InputRequired(), Length(min=2,max=21)])
     quantite = StringField("Quantité :", validators=[InputRequired(), Length(min=1,max=3)])
-    type = SelectField("Type :", choices=[("alcool","alcool"), ("nourriture","nourriture"), ("chips","chips"), ("softs","softs")])
+    type = SelectField("Type :", choices=[("alcool","alcool"), ("snack","snack"), ("chips","chips"), ("soft","soft"), ("spiritueux","spiritueux")])
     tarif = StringField("Tarif :", validators=[InputRequired(), Length(min=1,max=4)])
     submit = SubmitField("Send")
 
