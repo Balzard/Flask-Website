@@ -4,7 +4,7 @@ This repository contains files for a website made in Flask for a table tennis cl
 This has been made in the context of the web course of Unamur.
 
 
-###Launch the flask server in Linux
+##Launch the flask server in Linux
 1. Open a terminal in the directory of the project
 2. Enter "virtualenv -p python3 venv" to create a new virtual environment
 3. Enter "source venv/bin/activate" to activate the environment
