@@ -8,6 +8,11 @@
       <form novalidate style="text-align: center;" action="/addPlayerToTeam/nom={{ team.getName() }}" method="POST">
       {{form.csrf_token}}
 
+      <ul class="field_error">
+         {% for message in form.player.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.player.label}}<br>
       {{form.player }}<br><br>
 

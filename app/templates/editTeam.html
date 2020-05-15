@@ -6,6 +6,11 @@
     <form novalidate style="text-align: center;" action="/editTeam/nom={{team.getName()}}" method="POST">
       {{form.csrf_token}}
 
+      <ul class="field_error">
+         {% for message in form.name.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.name.label}}<br>
       {{form.name (value=team.getName())}}<br><br>
 

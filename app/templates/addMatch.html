@@ -15,18 +15,43 @@
     <form novalidate style="text-align: center;" action="/addMatch" method="POST">
       {{form.csrf_token}}
 
+      <ul class="field_error">
+         {% for message in form.date.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.date.label}}<br>
       {{form.date}}<br>
 
+      <ul class="field_error">
+         {% for message in form.heure.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.heure.label}}<br>
       {{form.heure}}<br>
 
+      <ul class="field_error">
+         {% for message in form.score.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.score.label}}<br>
       {{form.score}}<br>
 
+      <ul class="field_error">
+         {% for message in form.equipe.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.equipe.label}}<br>
       {{form.equipe(class="form-control-lg")}}<br>
 
+      <ul class="field_error">
+         {% for message in form.rival.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.rival.label}}<br>
       {{form.rival}}<br><br>
 

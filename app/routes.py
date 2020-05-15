@@ -105,7 +105,6 @@ def page_not_found(e):
 def home():
     return render_template("home.html")
 
-
 # Training page + tarif
 @app.route("/training")
 def training():
@@ -132,7 +131,6 @@ def bar():
     return render_template("bar.html", products=products)
 
 # Inscription page (inscription au club)
-# Ajout dans la bd et utilisation de formulaire
 @app.route("/inscription", methods=["GET","POST"])
 def inscription():
     form = MyRegistrationForm()
@@ -280,7 +278,7 @@ def deleteMatos(id):
         return render_template("404.html", msg=msg), 400
     return redirect(url_for("materiel"))
 
-# Supprimer une équipe => mettre un alert en JS si il y a encore des joueurs
+# Supprimer une équipe
 @app.route("/deleteTeam/nom=<name>")
 @login_required
 def deleteTeam(name):
@@ -318,7 +316,7 @@ def deleteProd(id):
         return render_template("404.html", msg=msg), 400
 
 # Modifier un joueur -> le bouton ne sera dispo que pour l'admin ou le joueur concerné (Jinja2)
-# Faire un JS demandant que la section old password soit remplie pour remplir new password
+# JS demandant que la section old password soit remplie pour remplir new password
 @app.route("/editPlayer/id=<id>", methods=["GET","POST"])
 @login_required
 def editPlayer(id):
@@ -440,7 +438,6 @@ def editProduct(id):
         return render_template("editProduct.html",form=form,prod=prod)
 
 # voir les stocks des produits bars restant
-# ATTENTION : mettre une sécurité car un joueur pourrait y accéder
 @app.route("/stock")
 @login_required
 def stock():
@@ -546,6 +543,7 @@ def playersInTeams():
         list.append(player.getId())
     return json.dumps(list)
 
+# Return a JSON object with all the information about a player
 @app.route("/askPlayerInfo", methods=["POST"])
 @login_required
 def askPlayerInfo():
@@ -554,6 +552,7 @@ def askPlayerInfo():
     player = Joueur.query.get(id)
     return json.dumps({"id": player.getId(), "pseudo": player.getUsername(), "admin": current_user.isAdmin()})
 
+# Return a JSON object saying if an autor has written a comment
 @app.route("/confirmAuthor", methods=["POST"])
 def confirmAuthor():
     # Get the data
@@ -571,6 +570,7 @@ def confirmAuthor():
     else:
         return json.dumps(False)
 
+# Return a JSON object with all the comments' id from an author
 @app.route("/commsFromAuthor", methods=["POST"])
 def commsFromAuthor():
     # Get the data
@@ -582,6 +582,7 @@ def commsFromAuthor():
         list.append(comm.getId())
     return json.dumps(list)
 
+# Return a JSON object with all the information about a comment
 @app.route("/infoComm", methods=["POST"])
 def infoComm():
     id = request.form["id"]
@@ -591,6 +592,7 @@ def infoComm():
     # Return the information under JSON format
     return json.dumps({"id": comm.getId(), "auteur": comm.getAuthor(), "date": comm.getDate(), "texte": comm.getMessage()})
 
+# Return a JSON list with all the comments'id
 @app.route("/allComm", methods=["POST"])
 def allComm():
     comms = Commentaire.query.all()
@@ -599,6 +601,7 @@ def allComm():
         list.append(comm.getId())
     return json.dumps(list)
 
+# Return a JSON object saying if the type exists
 @app.route("/confirmType", methods=["POST"])
 def confirmType():
     name = request.form["name"]
@@ -610,17 +613,17 @@ def confirmType():
     else:
         return json.dumps(False)
 
+# Return a JSON object with all the products'id from a type
 @app.route("/prodsFromType", methods=["POST"])
 def prodsFromType():
     name = request.form["name"]
     prods = Produit.query.filter_by(type=name).all()
-    #
     list = []
-    #
     for prod in prods:
         list.append(prod.getId())
     return json.dumps(list)
 
+# Return a JSON object with all the information about a product
 @app.route("/infoProd", methods=["POST"])
 def infoProd():
     id = request.form["id"]
@@ -628,6 +631,7 @@ def infoProd():
     prod = Produit.query.get(id)
     return json.dumps({"id": prod.getId(), "nom": prod.getName(), "quantite": prod.getQuant(), "type": prod.getType(), "tarif": prod.getPrice()})
 
+# Return a JSON list with all the products'id
 @app.route("/allProd", methods=["POST"])
 def allProd():
     prods = Produit.query.all()
@@ -636,6 +640,7 @@ def allProd():
         list.append(prod.getId())
     return json.dumps(list)
 
+# Increase the quantity involved by one and return a JSON object with the new one
 @app.route("/add", methods=["POST"])
 @login_required
 def add():
@@ -653,6 +658,7 @@ def add():
     # return la nouvelle quantite
     return json.dumps(item.getQuant())
 
+# Decrease the quantity involved by one and return a JSON object with the new one
 @app.route("/minus", methods=["POST"])
 @login_required
 def minus():
@@ -670,6 +676,7 @@ def minus():
     # return la nouvelle quantite
     return json.dumps(item.getQuant())
 
+# Change the status of a player and return a JSON object with the new status
 @app.route("/changeStatus", methods=["POST"])
 @login_required
 def changeStatus():

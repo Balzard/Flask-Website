@@ -7,12 +7,27 @@
       <form novalidate action="/addTraining" method="post" style="text-align: center;">
       {{form.csrf_token}}
 
+      <ul class="field_error">
+         {% for message in form.jour.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.jour.label}}<br>
       {{form.jour (class="form-control-lg")}}<br>
 
+      <ul class="field_error">
+         {% for message in form.heure.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{ form.heure.label }}<br>
       {{ form.heure }}<br>
 
+      <ul class="field_error">
+         {% for message in form.type.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{ form.type.label }}  <br>
       {{ form.type (class="form-control-lg")}}    <br>
 

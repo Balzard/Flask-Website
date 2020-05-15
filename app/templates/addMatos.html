@@ -16,9 +16,19 @@
     <form novalidate style="text-align: center;" action="/addMatos" method="POST">
       {{form.csrf_token}}
 
+      <ul class="field_error">
+         {% for message in form.type.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.type.label}}<br>
       {{form.type}}<br>
 
+      <ul class="field_error">
+         {% for message in form.quantite.errors %}
+           <p>{{message}}</p>
+         {% endfor %}
+       </ul>
       {{form.quantite.label}}<br>
       {{form.quantite}}<br><br>
 
